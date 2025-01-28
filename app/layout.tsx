@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Solana App",
-  description: "A minimal Next.js app for Solana wallet connection",
+  title: "Pump-Chat | Communeo",
+  description: "Communeo is a platform for token holders to chat.",
 };
 
 export default function RootLayout({
