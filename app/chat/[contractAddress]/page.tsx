@@ -14,7 +14,7 @@ interface ChatMessage {
 }
 
 export default function ChatPage() {
-  const { contractAddress } = useParams(); // Get contractAddress from URL
+  const { contractAddress } = useParams();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const { publicKey } = useWallet();
@@ -25,7 +25,6 @@ export default function ChatPage() {
 
     const chatRef = ref(realtimeDB, `chats/${contractAddress}/messages`);
 
-    // Listen for changes in real-time
     const unsubscribe = onValue(chatRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
@@ -36,7 +35,6 @@ export default function ChatPage() {
           timestamp: data[key].timestamp,
         }));
 
-        // Sort messages by timestamp
         allMessages.sort((a, b) => a.timestamp - b.timestamp);
 
         setMessages(allMessages);
@@ -45,33 +43,37 @@ export default function ChatPage() {
       }
     });
 
-    // Cleanup listener on unmount
     return () => unsubscribe();
   }, [contractAddress]);
 
-  // Scroll to the bottom when messages update
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Function to send a new message
   const sendMessage = () => {
-    if (!newMessage.trim()) return;
+    if (!newMessage.trim()) {
+      alert("Cannot send an empty message!");
+      return;
+    }
     if (!publicKey) {
       alert("Please connect your wallet to send messages.");
       return;
     }
 
     const chatRef = ref(realtimeDB, `chats/${contractAddress}/messages`);
-    const newMsgRef = push(chatRef);
 
-    push(chatRef, {
+    const messageData = {
       sender: publicKey.toBase58(),
       message: newMessage,
       timestamp: Date.now(),
-    })
+    };
+
+    console.log("Sending message:", messageData);
+
+    push(chatRef, messageData)
       .then(() => {
-        setNewMessage("");
+        console.log("Message sent successfully!");
+        setNewMessage(""); // Clear the input field
       })
       .catch((error) => {
         console.error("Error sending message:", error);
@@ -84,7 +86,6 @@ export default function ChatPage() {
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Chat Room</h1>
       <p className="text-gray-600 mb-6">Contract: {contractAddress}</p>
 
-      {/* Messages Display */}
       <div className="w-full max-w-lg bg-white p-4 rounded-lg shadow-md mb-4">
         <div className="h-80 overflow-y-auto border-b border-gray-300 pb-4">
           {messages.length > 0 ? (
@@ -94,6 +95,9 @@ export default function ChatPage() {
                   {msg.sender === publicKey?.toBase58() ? "You" : msg.sender.substring(0, 6)}:
                 </span>{" "}
                 <span className="text-gray-800">{msg.message}</span>
+                <span className="block text-xs text-gray-500">
+                  {new Date(msg.timestamp).toLocaleTimeString()}
+                </span>
               </div>
             ))
           ) : (
@@ -103,7 +107,6 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Message Input */}
       <div className="w-full max-w-lg flex items-center">
         <input
           type="text"
@@ -114,10 +117,16 @@ export default function ChatPage() {
           onKeyDown={(e) => {
             if (e.key === "Enter") sendMessage();
           }}
+          autoFocus
         />
         <button
           onClick={sendMessage}
-          className="px-4 py-2 bg-blue-600 text-white rounded-r-lg hover:bg-blue-700 transition"
+          disabled={!newMessage.trim()}
+          className={`px-4 py-2 rounded-r-lg transition ${
+            newMessage.trim()
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-gray-300 text-gray-600 cursor-not-allowed"
+          }`}
         >
           Send
         </button>
