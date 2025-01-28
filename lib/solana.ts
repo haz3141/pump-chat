@@ -1,9 +1,34 @@
 import axios from "axios";
-
 import { FungibleTokenAsset } from "@/types/solana";
 
 const HELIUS_API_KEY = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
 const HELIUS_RPC_URL = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`;
+
+// Define the structure of the raw API response
+interface RawToken {
+  id: string;
+  interface: string;
+  content: {
+    metadata: {
+      name: string;
+      symbol: string;
+      description: string;
+    };
+  };
+  token_info: {
+    balance: number;
+    supply: number;
+    decimals: number;
+    associated_token_address: string;
+  };
+}
+
+// Define the structure of the API response
+interface HeliusApiResponse {
+  result: {
+    items: RawToken[];
+  };
+}
 
 /**
  * Fetch Solana fungible tokens owned by a wallet.
@@ -20,7 +45,7 @@ export async function fetchTokensFromHelius(
   }
 
   try {
-    const response = await axios.post(HELIUS_RPC_URL, {
+    const response = await axios.post<HeliusApiResponse>(HELIUS_RPC_URL, {
       jsonrpc: "2.0",
       id: "",
       method: "getAssetsByOwner",
@@ -35,12 +60,13 @@ export async function fetchTokensFromHelius(
 
     const assets = response.data.result?.items || [];
 
-    // Filter only fungible tokens by checking "interface" property
+    // Filter only fungible tokens by checking the "interface" property
     const fungibleTokens = assets.filter(
-      (item: any) => item.interface === "FungibleToken",
+      (item: RawToken) => item.interface === "FungibleToken",
     );
 
-    return fungibleTokens.map((token: any) => ({
+    // Map the raw tokens to the FungibleTokenAsset structure
+    return fungibleTokens.map((token: RawToken): FungibleTokenAsset => ({
       id: token.id,
       content: {
         metadata: {
