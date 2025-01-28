@@ -21,8 +21,8 @@ export function useUserTokens() {
     }
 
     setIsConnected(true);
-    //const walletAddress = publicKey.toBase58();
-    const walletAddress = "BCjpgg9U8kYAQX9h2CyoV155dZZ34ntvgiJSUarvkYx3"; //BCjpgg9U8kYAQX9h2CyoV155dZZ34ntvgiJSUarvkYx3 //HFgpkhk17PLGftqK6aSrcn9r8jghsd5GeyD7y9LcNEKJ
+    const walletAddress = publicKey.toBase58();
+    //const walletAddress = "BCjpgg9U8kYAQX9h2CyoV155dZZ34ntvgiJSUarvkYx3"; //BCjpgg9U8kYAQX9h2CyoV155dZZ34ntvgiJSUarvkYx3 //HFgpkhk17PLGftqK6aSrcn9r8jghsd5GeyD7y9LcNEKJ
 
     console.log("Wallet address:", walletAddress);
 
