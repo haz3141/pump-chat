@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { FungibleTokenAsset } from "@/types/solana";
 
 const HELIUS_API_KEY = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
@@ -11,7 +12,9 @@ const HELIUS_RPC_URL = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY
  * @param walletAddress - The Solana wallet public key as a string
  * @returns An array of fungible token assets
  */
-export async function fetchTokensFromHelius(walletAddress: string): Promise<FungibleTokenAsset[]> {
+export async function fetchTokensFromHelius(
+  walletAddress: string,
+): Promise<FungibleTokenAsset[]> {
   if (!HELIUS_API_KEY) {
     throw new Error("Helius API key is missing. Check your .env.local file.");
   }
@@ -33,7 +36,9 @@ export async function fetchTokensFromHelius(walletAddress: string): Promise<Fung
     const assets = response.data.result?.items || [];
 
     // Filter only fungible tokens by checking "interface" property
-    const fungibleTokens = assets.filter((item: any) => item.interface === "FungibleToken");
+    const fungibleTokens = assets.filter(
+      (item: any) => item.interface === "FungibleToken",
+    );
 
     return fungibleTokens.map((token: any) => ({
       id: token.id,
