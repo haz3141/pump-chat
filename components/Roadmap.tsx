@@ -1,14 +1,15 @@
 "use client"; // Ensures component runs on client-side for animations
 
 import { motion } from "framer-motion";
+import Button from "./Button"; // Import reusable button component
 
 /**
  * File: /components/Roadmap.tsx
  * 
- * Description:
- * - This component renders the 2025 roadmap in both desktop (horizontal) and mobile (vertical) views.
- * - The roadmap displays a timeline with milestone achievements for each quarter.
- * - Fix: Ensures the timeline bar is behind the circles in both views.
+ * 📌 Roadmap Section:
+ * - Seamlessly blends with Call to Action.
+ * - Displays **quarterly milestones** with a high-end timeline format.
+ * - Fix: Adjusted spacing & transitions.
  */
 
 const roadmapData = [
@@ -52,10 +53,13 @@ const roadmapData = [
 
 export default function Roadmap() {
     return (
-        <section id="roadmap" className="py-20 bg-black text-white px-6">
-            {/* Section Title */}
+        <section id="roadmap" className="relative py-28 bg-gray-900 text-white px-6">
+            {/* 🔹 **Smooth Transition from How It Works** */}
+            <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-t from-gray-900 to-black"></div>
+
+            {/* 🔹 Section Title (Adjusted Spacing for Balance) */}
             <motion.h2
-                className="text-3xl md:text-5xl font-bold text-center text-transparent bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text mb-12"
+                className="relative z-10 text-4xl md:text-5xl font-bold text-center text-transparent bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text mt-12 mb-12"
                 initial={{ opacity: 0, y: -20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
@@ -63,9 +67,9 @@ export default function Roadmap() {
                 2025 Roadmap
             </motion.h2>
 
-            {/* Desktop Timeline (Horizontal) */}
+            {/* 🔹 Desktop Timeline (Horizontal) */}
             <div className="hidden md:flex justify-between relative max-w-6xl mx-auto">
-                {/* Timeline Bar (z-index ensures it's behind the circles) */}
+                {/* Timeline Bar */}
                 <div className="absolute top-8 left-0 w-full h-2 bg-gray-700 z-0"></div>
 
                 {roadmapData.map((phase, index) => (
@@ -76,7 +80,7 @@ export default function Roadmap() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.2, duration: 0.6 }}
                     >
-                        {/* Quarter Badge (Above Bar) */}
+                        {/* Quarter Badge */}
                         <div
                             className={`w-16 h-16 flex items-center justify-center text-sm font-bold rounded-full border-4 ${phase.color} text-black z-10`}
                         >
@@ -93,9 +97,9 @@ export default function Roadmap() {
                 ))}
             </div>
 
-            {/* Mobile Timeline (Vertical) */}
+            {/* 🔹 Mobile Timeline (Vertical) */}
             <div className="md:hidden flex flex-col space-y-8 max-w-xl mx-auto relative">
-                {/* Timeline Bar (z-index ensures it's behind the circles) */}
+                {/* Timeline Bar */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 top-0 w-1 h-full bg-gray-700 z-0"></div>
 
                 {roadmapData.map((phase, index) => (
@@ -106,12 +110,12 @@ export default function Roadmap() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.2, duration: 0.6 }}
                     >
-                        {/* Vertical Line (Positioned Behind Circles) */}
+                        {/* Vertical Line */}
                         {index !== 0 && (
                             <div className="absolute left-1/2 transform -translate-x-1/2 top-0 w-1 h-12 bg-gray-700 z-0"></div>
                         )}
 
-                        {/* Quarter Badge (Centered) */}
+                        {/* Quarter Badge */}
                         <div className={`w-12 h-12 flex items-center justify-center text-xs font-bold rounded-full border-4 ${phase.color} text-black z-10`}>
                             {phase.quarter}
                         </div>
@@ -125,6 +129,7 @@ export default function Roadmap() {
                     </motion.div>
                 ))}
             </div>
+
         </section>
     );
 }

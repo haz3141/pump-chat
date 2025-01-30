@@ -2,9 +2,8 @@
  * File: /components/LandingHero.tsx
  *
  * 🎨 Premium Hero Section:
- * - Hero text & button animations are **in sync**.
- * - Subtitle now has a **subtle, refined glow**.
- * - Optimized for clarity, contrast, and a premium aesthetic.
+ * - Subtle gradient transition into Features section.
+ * - Smooth, natural blending for a **seamless experience**.
  */
 
 "use client";
@@ -19,7 +18,7 @@ export default function LandingHero() {
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-black via-gray-900 to-black animate-gradient" />
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_0%,rgba(0,0,0,0.9)_100%)]" />
 
-      {/* 🔹 Hero Title with Moving Gradient & Soft Neon Glow */}
+      {/* 🔹 Hero Title with Moving Gradient & Subtle Neon Glow */}
       <motion.h1
         className="relative z-10 text-5xl md:text-6xl font-extrabold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-text-glow subtle-glow"
         initial={{ opacity: 0, y: -30 }}
@@ -29,7 +28,7 @@ export default function LandingHero() {
         Welcome to Pump.Chat
       </motion.h1>
 
-      {/* 🔹 Subtitle (Now with Soft Glow for Premium Look) */}
+      {/* 🔹 Subtitle with a Soft Glow */}
       <motion.p
         className="relative z-10 mt-4 hero-subtitle"
         initial={{ opacity: 0, y: 20 }}
@@ -57,6 +56,9 @@ export default function LandingHero() {
           Get Started
         </Button>
       </motion.div>
+
+      {/* 🔹 **Unified Gradient Transition to Features** */}
+      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-b from-black/0 to-gray-900"></div>
     </section>
   );
 }
