@@ -30,7 +30,7 @@ export default function LandingHero() {
 
       {/* Call to Action Button */}
       <motion.a
-        href="#features"
+        href="#about"
         className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:scale-105 transition-transform"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
