@@ -1,10 +1,10 @@
-// components/Header.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -21,6 +21,7 @@ export default function Header() {
         const section = document.getElementById(id);
         if (section) {
             section.scrollIntoView({ behavior: "smooth", block: "start" });
+            setMenuOpen(false); // Close menu on mobile after clicking a link
         }
     };
 
@@ -38,34 +39,48 @@ export default function Header() {
                     PUMP.CHAT
                 </span>
 
-                {/* Navigation Links */}
-                <nav className="space-x-6 text-white text-lg font-semibold">
-                    <button
-                        onClick={() => scrollToSection("roadmap")}
-                        className="cursor-pointer hover:text-blue-400 transition"
-                    >
+                {/* Mobile Menu Button */}
+                <button
+                    className="md:hidden text-white text-3xl focus:outline-none"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                >
+                    ☰
+                </button>
+
+                {/* Navigation Links (Desktop) */}
+                <nav className="hidden md:flex space-x-6 text-white text-lg font-semibold">
+                    <button onClick={() => scrollToSection("roadmap")} className="cursor-pointer hover:text-blue-400 transition">
                         Roadmap
                     </button>
-                    <button
-                        onClick={() => scrollToSection("how-it-works")}
-                        className="cursor-pointer hover:text-blue-400 transition"
-                    >
+                    <button onClick={() => scrollToSection("how-it-works")} className="cursor-pointer hover:text-blue-400 transition">
                         How It Works
                     </button>
-                    <button
-                        onClick={() => scrollToSection("features")}
-                        className="cursor-pointer hover:text-blue-400 transition"
-                    >
+                    <button onClick={() => scrollToSection("features")} className="cursor-pointer hover:text-blue-400 transition">
                         Features
                     </button>
-                    <button
-                        onClick={() => scrollToSection("about")}
-                        className="cursor-pointer hover:text-blue-400 transition"
-                    >
+                    <button onClick={() => scrollToSection("about")} className="cursor-pointer hover:text-blue-400 transition">
                         About Us
                     </button>
                 </nav>
             </div>
+
+            {/* Mobile Navigation Dropdown */}
+            {menuOpen && (
+                <div className="md:hidden absolute top-full left-0 w-full bg-black/90 text-white py-4">
+                    <button onClick={() => scrollToSection("roadmap")} className="block w-full text-lg py-2 hover:text-blue-400 transition">
+                        Roadmap
+                    </button>
+                    <button onClick={() => scrollToSection("how-it-works")} className="block w-full text-lg py-2 hover:text-blue-400 transition">
+                        How It Works
+                    </button>
+                    <button onClick={() => scrollToSection("features")} className="block w-full text-lg py-2 hover:text-blue-400 transition">
+                        Features
+                    </button>
+                    <button onClick={() => scrollToSection("about")} className="block w-full text-lg py-2 hover:text-blue-400 transition">
+                        About Us
+                    </button>
+                </div>
+            )}
         </header>
     );
 }
