@@ -1,7 +1,15 @@
-// components/CallToAction.tsx
-"use client"; // Required for animations
+/**
+ * File: /components/CallToAction.tsx
+ *
+ * Description:
+ * - Encourages users to join Pump.Chat.
+ * - Uses `Button` while preventing stretching.
+ */
+
+"use client";
 
 import { motion } from "framer-motion";
+import Button from "./Button"; // Import the reusable button component
 
 export default function CallToAction() {
     return (
@@ -26,16 +34,22 @@ export default function CallToAction() {
                 Connect with your community like never before. Secure, decentralized, and built for you.
             </motion.p>
 
-            {/* CallToAction Button */}
-            <motion.a
-                href="#"
-                className="mt-6 inline-block px-8 py-4 bg-black text-white font-bold text-lg rounded-lg shadow-lg hover:scale-105 transition-transform"
+            {/* Fix: Wrap in inline-flex + w-auto to prevent stretching */}
+            <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
+                className="mt-6 inline-flex w-auto" // ✅ Fix: Ensures natural button sizing
             >
-                Get Started
-            </motion.a>
+                <Button
+                    href="/chat"
+                    variant="custom"
+                    size="lg"
+                    className="bg-black text-white font-bold shadow-lg hover:scale-105 transition-transform"
+                >
+                    Get Started
+                </Button>
+            </motion.div>
         </section>
     );
 }
