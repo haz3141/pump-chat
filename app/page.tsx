@@ -15,7 +15,7 @@ import Roadmap from "@/components/Roadmap";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
 
-export default function LandingPage() {
+export default function Home() {
   return (
     <main>
       <Header />
