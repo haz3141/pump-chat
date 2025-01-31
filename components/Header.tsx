@@ -11,7 +11,6 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
 import Button from "./Button"; // Import the reusable button component
 
 export default function Header() {
