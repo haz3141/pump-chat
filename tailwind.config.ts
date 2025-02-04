@@ -1,3 +1,9 @@
+/**
+ * File: /tailwind.config.ts
+ * Description: Tailwind CSS configuration for Pump.Chat. This file specifies the content
+ * paths, extends the default theme with custom colors and other utilities, and lists plugins.
+ */
+
 import type { Config } from "tailwindcss";
 
 export default {

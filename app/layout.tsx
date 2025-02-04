@@ -1,29 +1,28 @@
-import type { Metadata } from "next";
-import { Press_Start_2P, Inter } from "next/font/google"; // Import fonts
+/**
+ * File: /app/layout.tsx
+ * Description: Root layout for Pump.Chat. Sets up global styles, fonts,
+ * metadata, and wraps the app with SolanaWalletProvider for wallet interactions.
+ */
 
+import type { Metadata } from "next";
+import { Press_Start_2P, Inter } from "next/font/google";
 import { SolanaWalletProvider } from "./providers/solana-wallet-provider";
 import "./globals.css";
 
-/** 
- * Font Configuration:
- * - "Press Start 2P" → Used for headings (retro/Web3 aesthetic).
- * - "Inter" → Used for body text (modern & highly readable).
- */
+// Google Fonts configuration:
+// - "Press Start 2P" for headings (retro aesthetic)
+// - "Inter" for body text (modern and readable)
 const pressStart = Press_Start_2P({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-press-start",
 });
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
 
-/**
- * Metadata Configuration:
- * - Optimized for SEO and OpenGraph previews.
- */
+// Metadata for SEO and social sharing:
 export const metadata: Metadata = {
   title: "Pump-Chat | Communeo",
   description: "Communeo is a platform for token holders to chat.",
@@ -34,6 +33,7 @@ export const metadata: Metadata = {
   },
 };
 
+// Root layout component wrapping all pages with global settings:
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -42,10 +42,7 @@ export default function RootLayout({
       <body
         className={`${pressStart.variable} ${inter.variable} antialiased bg-black text-white`}
       >
-        {/* Global provider for Solana wallet interactions */}
-        <SolanaWalletProvider>
-          {children}
-        </SolanaWalletProvider>
+        <SolanaWalletProvider>{children}</SolanaWalletProvider>
       </body>
     </html>
   );

@@ -1,3 +1,9 @@
+/**
+ * File: /hooks/useUserTokens.ts
+ * Description: Custom hook to fetch fungible tokens owned by the connected Solana wallet
+ * using the Helius API. Manages loading, error, and connection states.
+ */
+
 "use client";
 
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -22,14 +28,11 @@ export function useUserTokens() {
 
     setIsConnected(true);
     const walletAddress = publicKey.toBase58();
-    //const walletAddress = "BCjpgg9U8kYAQX9h2CyoV155dZZ34ntvgiJSUarvkYx3"; //BCjpgg9U8kYAQX9h2CyoV155dZZ34ntvgiJSUarvkYx3 //HFgpkhk17PLGftqK6aSrcn9r8jghsd5GeyD7y9LcNEKJ
-
     console.log("Wallet address:", walletAddress);
 
     async function loadTokens() {
       setLoading(true);
       setError(null);
-
       try {
         const fetchedTokens = await fetchTokensFromHelius(walletAddress);
         setTokens(fetchedTokens);

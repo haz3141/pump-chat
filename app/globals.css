@@ -1,3 +1,10 @@
+/**
+ * File: /app/globals.css
+ * Description: Global styles for Pump.Chat. This file sets up the base Tailwind CSS
+ * directives, defines root theme variables (colors, fonts, gradients), and includes custom
+ * animations and component-specific styles.
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

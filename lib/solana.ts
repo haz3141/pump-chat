@@ -1,10 +1,15 @@
+/**
+ * File: /lib/solana.ts
+ * Description: Provides helper functions to interact with the Helius API and fetch
+ * Solana fungible token assets.
+ */
+
 import axios from "axios";
 import { FungibleTokenAsset } from "@/types/solana";
 
 const HELIUS_API_KEY = process.env.NEXT_PUBLIC_HELIUS_API_KEY;
 const HELIUS_RPC_URL = `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`;
 
-// Define the structure of the raw API response
 interface RawToken {
   id: string;
   interface: string;
@@ -23,7 +28,6 @@ interface RawToken {
   };
 }
 
-// Define the structure of the API response
 interface HeliusApiResponse {
   result: {
     items: RawToken[];
@@ -32,16 +36,15 @@ interface HeliusApiResponse {
 
 /**
  * Fetch Solana fungible tokens owned by a wallet.
- * Filters out NFTs by checking the "interface" field.
  *
- * @param walletAddress - The Solana wallet public key as a string
- * @returns An array of fungible token assets
+ * @param walletAddress - The Solana wallet public key as a string.
+ * @returns An array of fungible token assets.
  */
 export async function fetchTokensFromHelius(
   walletAddress: string,
 ): Promise<FungibleTokenAsset[]> {
   if (!HELIUS_API_KEY) {
-    throw new Error("Helius API key is missing. Check your .env.local file.");
+    throw new Error("Helius API key is missing. Check your environment configuration.");
   }
 
   try {
@@ -59,13 +62,7 @@ export async function fetchTokensFromHelius(
     });
 
     const assets = response.data.result?.items || [];
-
-    // Filter only fungible tokens by checking the "interface" property
-    const fungibleTokens = assets.filter(
-      (item: RawToken) => item.interface === "FungibleToken",
-    );
-
-    // Map the raw tokens to the FungibleTokenAsset structure
+    const fungibleTokens = assets.filter((item: RawToken) => item.interface === "FungibleToken");
     return fungibleTokens.map((token: RawToken): FungibleTokenAsset => ({
       id: token.id,
       content: {

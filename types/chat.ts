@@ -1,7 +1,11 @@
+/**
+ * File: /types/chat.ts
+ * Description: Defines the TypeScript interface for chat messages.
+ */
+
 export interface ChatMessage {
-    id: string; // Unique message ID
-    sender: string; // User who sent the message (wallet address)
-    message: string; // The chat message
-    timestamp: number; // Timestamp for ordering
-  }
-  
+  id: string;
+  sender: string;
+  message: string;
+  timestamp: number;
+}
