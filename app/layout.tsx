@@ -1,5 +1,6 @@
 /**
  * File: /app/layout.tsx
+ * 
  * Description: Root layout for Pump.Chat. Sets up global styles, fonts,
  * metadata, and wraps the app with SolanaWalletProvider for wallet interactions.
  */
