@@ -4,6 +4,7 @@
  * - Chat room page for a specific token-based chat.
  * - Displays chat messages and allows users to send new messages.
  * - Auto-scrolls to the latest message.
+ * - Displays DeFi data and GeckoTerminal chart for the contract address.
  */
 
 "use client";
@@ -17,19 +18,24 @@ import ChatContractInfo from "@/components/ChatContractInfo";
 import ChatHeader from "@/components/ChatHeader";
 import useChat from "@/hooks/useChat";
 import { sendMessage } from "@/lib/chatUtils";
+import useDeFiData from "@/hooks/useDeFiData";
+import DeFiDataDisplay from "@/components/DeFiDataDisplay";
+import GeckoTerminalChart from "@/components/GeckoTerminalChart";
 
 export default function ChatPage() {
-  const { contractAddress } = useParams();
+  const { contractAddress } = useParams<{ contractAddress: string }>();
   const [newMessage, setNewMessage] = useState("");
   const { publicKey } = useWallet();
 
   // Ensure contractAddress is a string
-  const contractAddressString = Array.isArray(contractAddress)
-    ? contractAddress.join("")
-    : contractAddress;
+  const contractAddressString = contractAddress ?? "";
 
   // Use the custom hook to manage chat messages
   const messages = useChat(contractAddressString);
+
+  // Use the custom hook to fetch DeFi data
+  const network = "solana"; // Change this based on your network
+  const { data, loading, error } = useDeFiData(network, contractAddressString);
 
   // Function to send a new message using the utility function
   const handleSendMessage = () => {
@@ -48,6 +54,9 @@ export default function ChatPage() {
       {/* Display the current contract address */}
       <ChatContractInfo contractAddress={contractAddressString} />
 
+      {/* Display DeFi data */}
+      <DeFiDataDisplay data={data} loading={loading} error={error} />
+
       {/* Chat messages container */}
       <ChatMessageList messages={messages} publicKey={publicKey?.toBase58()} />
 
@@ -58,6 +67,9 @@ export default function ChatPage() {
         sendMessage={handleSendMessage}
         disabled={!newMessage.trim()}
       />
+
+      {/* Display GeckoTerminal Chart */}
+      {/* <GeckoTerminalChart contractAddress={contractAddressString} /> */}
     </main>
   );
 }
