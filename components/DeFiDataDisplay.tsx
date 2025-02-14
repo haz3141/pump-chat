@@ -6,8 +6,26 @@
 
 import React from "react";
 
+interface TokenAttributes {
+  name: string;
+  symbol: string;
+  price_usd: string; // API returns as a string
+  volume_usd: {
+    h24: string; // API returns as a string
+  };
+  total_reserve_in_usd: string; // API returns as a string
+  fdv_usd: string; // API returns as a string
+  market_cap_usd?: string | null; // API returns as a string or null
+}
+
+interface DeFiData {
+  data: {
+    attributes: TokenAttributes;
+  };
+}
+
 interface DeFiDataDisplayProps {
-  data: any; // Replace `any` with the actual type once known
+  data: DeFiData | null;
   loading: boolean;
   error: string | null;
 }
@@ -23,11 +41,23 @@ const DeFiDataDisplay: React.FC<DeFiDataDisplayProps> = ({ data, loading, error 
       <h2 className="text-xl font-semibold mb-2 text-black">DeFi Data</h2>
       <p className="text-black">Name: {tokenData?.name}</p>
       <p className="text-black">Symbol: {tokenData?.symbol}</p>
-      <p className="text-black">Price (USD): ${tokenData?.price_usd}</p>
-      <p className="text-black">Volume (24h): ${tokenData?.volume_usd?.h24}</p>
-      <p className="text-black">Total Reserve (USD): ${tokenData?.total_reserve_in_usd}</p>
-      <p className="text-black">Fully Diluted Valuation (USD): ${tokenData?.fdv_usd}</p>
-      <p className="text-black">Market Cap (USD): {tokenData?.market_cap_usd ?? "N/A"}</p>
+      <p className="text-black">
+        Price (USD): ${parseFloat(tokenData?.price_usd || "0").toFixed(4)}
+      </p>
+      <p className="text-black">
+        Volume (24h): ${parseFloat(tokenData?.volume_usd.h24 || "0").toLocaleString()}
+      </p>
+      <p className="text-black">
+        Total Reserve (USD): ${parseFloat(tokenData?.total_reserve_in_usd || "0").toLocaleString()}
+      </p>
+      <p className="text-black">
+        Fully Diluted Valuation (USD): ${parseFloat(tokenData?.fdv_usd || "0").toLocaleString()}
+      </p>
+      <p className="text-black">
+        Market Cap (USD): {tokenData?.market_cap_usd
+          ? `$${parseFloat(tokenData.market_cap_usd).toLocaleString()}`
+          : "N/A"}
+      </p>
     </div>
   );
 };
