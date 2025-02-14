@@ -20,7 +20,7 @@ import useChat from "@/hooks/useChat";
 import { sendMessage } from "@/lib/chatUtils";
 import useDeFiData from "@/hooks/useDeFiData";
 import DeFiDataDisplay from "@/components/DeFiDataDisplay";
-import GeckoTerminalChart from "@/components/GeckoTerminalChart";
+//import GeckoTerminalChart from "@/components/GeckoTerminalChart";
 
 export default function ChatPage() {
   const { contractAddress } = useParams<{ contractAddress: string }>();
