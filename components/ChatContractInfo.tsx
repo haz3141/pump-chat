@@ -1,28 +1,29 @@
-import React, { useState } from "react";
-import Button from "@/components/Button";
-import { ClipboardIcon, CheckIcon } from "@heroicons/react/24/outline";
-
 /**
- * ChatContractInfo Component
- * ----------------------------
- * Displays essential contract details for a given token.
+ * File: /components/ChatContractInfo.tsx
+ * Description:
+ * - Displays essential contract details for a given token.
  * - Shows token name & symbol (if available).
  * - Provides a clickable contract address with copy functionality.
  * - Includes external links (DexScreener, Solscan, etc.).
  * - Displays a placeholder AI button for future functionality.
  */
 
+import React, { useState } from "react";
+import Button from "@/components/Button";
+import { ClipboardIcon, CheckIcon } from "@heroicons/react/24/outline";
+
 interface ChatContractInfoProps {
-  contractAddress: string | undefined;
+  contractAddress?: string;
   name?: string;
   symbol?: string;
 }
 
 const ChatContractInfo: React.FC<ChatContractInfoProps> = ({ contractAddress, name, symbol }) => {
-  if (!contractAddress) return null; // Prevent rendering if contractAddress is missing
-
   // State to track if contract address has been copied
   const [copied, setCopied] = useState(false);
+
+  // If no contract address is provided, do not render the component
+  if (!contractAddress) return null;
 
   // Construct external links
   const dexScreenerUrl = `https://dexscreener.com/solana/${contractAddress}`;
