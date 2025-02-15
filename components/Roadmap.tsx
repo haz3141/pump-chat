@@ -9,13 +9,14 @@ import { motion } from "framer-motion";
  * - Seamlessly blends with Call to Action.
  * - Displays **quarterly milestones** with a high-end timeline format.
  * - Fix: Adjusted spacing & transitions.
+ * - Updated text color in circles to white for better contrast and readability.
  */
 
 const roadmapData = [
     {
         quarter: "Q1 2025",
         milestones: [
-            "Launch of Pump.Chat’s Own Token",
+            "Launch of Kulture.Fun’s Own Token",
             "Beta Release of AI Moderation Agents",
             "Community Growth Initiatives",
         ],
@@ -34,7 +35,7 @@ const roadmapData = [
         quarter: "Q3 2025",
         milestones: [
             "Cross-Chain Support for More Wallets",
-            "Pump.Chat Marketplace Integration",
+            "Kulture.Fun Marketplace Integration",
             "Advanced AI User Assistance",
         ],
         color: "bg-green-500 border-green-500",
@@ -79,9 +80,9 @@ export default function Roadmap() {
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.2, duration: 0.6 }}
                     >
-                        {/* Quarter Badge */}
+                        {/* Quarter Badge with White Text */}
                         <div
-                            className={`w-16 h-16 flex items-center justify-center text-sm font-bold rounded-full border-4 ${phase.color} text-black z-10`}
+                            className={`w-16 h-16 flex items-center justify-center text-sm font-bold rounded-full border-4 ${phase.color} text-white z-10`}
                         >
                             {phase.quarter}
                         </div>
@@ -114,8 +115,8 @@ export default function Roadmap() {
                             <div className="absolute left-1/2 transform -translate-x-1/2 top-0 w-1 h-12 bg-gray-700 z-0"></div>
                         )}
 
-                        {/* Quarter Badge */}
-                        <div className={`w-12 h-12 flex items-center justify-center text-xs font-bold rounded-full border-4 ${phase.color} text-black z-10`}>
+                        {/* Quarter Badge with White Text */}
+                        <div className={`w-12 h-12 flex items-center justify-center text-xs font-bold rounded-full border-4 ${phase.color} text-white z-10`}>
                             {phase.quarter}
                         </div>
 

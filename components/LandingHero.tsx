@@ -41,7 +41,7 @@ export default function LandingHero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        Welcome to Pump.Chat
+        Welcome to Kulture.Fun
       </motion.h1>
 
       {/* 🔹 Subtitle with a Soft Glow & Responsive Scale */}
@@ -52,7 +52,7 @@ export default function LandingHero() {
         transition={{ delay: 0.3, duration: 0.8 }}
       >
         The Future of Token-Gated Communication.
-        Secure, Decentralized, and Built for You.
+        Safe, Engaging, and Tailored for You.
       </motion.p>
 
       {/* 🔹 Call to Action Button (Animated Gradient & Glow) */}

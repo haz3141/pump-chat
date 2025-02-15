@@ -1,3 +1,8 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Button from "./Button"; // Import reusable button component
+
 /**
  * File: /components/CallToAction.tsx
  *
@@ -6,11 +11,6 @@
  * - **Balanced spacing & typography** for legibility.
  * - **Subtle glow & shadow effects** for a premium look.
  */
-
-"use client";
-
-import { motion } from "framer-motion";
-import Button from "./Button"; // Import reusable button component
 
 export default function CallToAction() {
     return (

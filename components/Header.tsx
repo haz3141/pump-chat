@@ -51,7 +51,7 @@ export default function Header() {
                     className="text-white text-2xl font-bold tracking-wide uppercase cursor-pointer"
                     onClick={() => scrollToSection("hero")}
                 >
-                    PUMP.CHAT
+                    KULTURE.FUN
                 </span>
 
                 {/* 🔹 Mobile Menu Button */}
