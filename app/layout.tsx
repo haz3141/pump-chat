@@ -25,11 +25,11 @@ const inter = Inter({
 
 // Metadata for SEO and social sharing:
 export const metadata: Metadata = {
-  title: "Pump-Chat | Communeo",
-  description: "Communeo is a platform for token holders to chat.",
+  title: "Kulture.Fun | Token-Based Chat Revolution",
+  description: "Kulture.Fun is a platform where token holders chat securely and decentralized.",
   openGraph: {
-    title: "Pump-Chat",
-    description: "Join the decentralized chat revolution.",
+    title: "Kulture.Fun",
+    description: "Join the future of token-based community chat.",
     images: ["/og-image.png"], // TODO: Replace with actual OG image.
   },
 };
