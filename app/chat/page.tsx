@@ -4,6 +4,7 @@
  * - Main chat page for Pump.Chat.
  * - Allows users to connect their wallet and view their fungible tokens.
  * - Provides access to token-specific chat rooms.
+ * - Displays Top Chats and Trending Tokens in a horizontal layout.
  */
 
 "use client";
@@ -16,17 +17,23 @@ import WalletPrompt from "@/components/WalletPrompt";
 import LoadingMessage from "@/components/LoadingMessage";
 import ErrorMessage from "@/components/ErrorMessage";
 import NoTokensMessage from "@/components/NoTokensMessage";
+import TopChats from "@/components/TopChats";
+import TrendingTokens from "@/components/TrendingTokens";
+import ChatFooter from "@/components/ChatFooter"; // Importing the footer
 
 export default function ChatPage() {
   const { tokens, loading, error, isConnected } = useUserTokens();
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gray-100 p-6">
-      {/* Page Title */}
+    <main className="min-h-screen flex flex-col items-center justify-start gap-6 bg-gray-100 px-6 py-4">
+      {/* Page Title & Navigation */}
       <ChatHeader />
 
-      {/* Wallet Connection Button */}
-      <DynamicWalletButton />
+      {/* Display Top Chats & Trending Tokens in the same row */}
+      <div className="w-full max-w-4xl flex flex-wrap justify-between gap-4">
+        <TopChats />
+        <TrendingTokens />
+      </div>
 
       {/* Prompt user to connect wallet if not connected */}
       {!isConnected && <WalletPrompt />}
@@ -46,6 +53,9 @@ export default function ChatPage() {
       {isConnected && !loading && !error && tokens.length === 0 && (
         <NoTokensMessage />
       )}
+
+      {/* Footer */}
+      <ChatFooter /> {/* Add the footer here */}
     </main>
   );
 }

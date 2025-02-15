@@ -5,158 +5,168 @@
  * animations and component-specific styles.
  */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* ======================================================= */
-/* 🎨 Root Theme Variables (Color, Fonts, Gradients)      */
-/* ======================================================= */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-primary: "Press Start 2P", cursive;
-  --font-secondary: "Inter", sans-serif;
-  --accent-primary: #00ffa3;    /* Vibrant Web3 Green */
-  --accent-secondary: #7f5af0;  /* Purple Gradient */
-  --accent-highlight: #ff0080;  /* Pink Edge */
-  --accent-gradient: linear-gradient(
-    90deg,
-    #00ffa3 0%,
-    #7f5af0 50%,
-    #ff0080 100%
-  );
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-/* ======================================================= */
-/* 🔤 Heading Styles (Moving Gradient & Subtle Glow)      */
-/* ======================================================= */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-primary);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  line-height: 1.2;
-}
-
-.subtle-glow {
-  text-shadow:
-    0 0 4px rgba(127, 90, 240, 0.25),
-    0 0 6px rgba(0, 255, 163, 0.2),
-    0 0 8px rgba(255, 0, 128, 0.2);
-}
-
-/* ======================================================= */
-/* 🌈 Animated Gradients (Text & Background)             */
-/* ======================================================= */
-
-/* 🔸 Keyframes with WebKit prefix for older iOS support */
-@-webkit-keyframes movingTextGradient {
-  0% { background-position: 0% 50%; }
-  25% { background-position: 50% 50%; }
-  50% { background-position: 100% 50%; }
-  75% { background-position: 50% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes movingTextGradient {
-  0% { background-position: 0% 50%; }
-  25% { background-position: 50% 50%; }
-  50% { background-position: 100% 50%; }
-  75% { background-position: 50% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-text-glow {
-  background-image: var(--accent-gradient);
-  background-size: 300% 300%;
-  -webkit-animation: movingTextGradient 6s linear infinite;
-  animation: movingTextGradient 6s linear infinite;
-}
-
-/* 🔸 Background Shift Animation */
-@-webkit-keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-  background-size: 250% 250%;
-  -webkit-animation: gradientShift 10s ease infinite;
-  animation: gradientShift 10s ease infinite;
-}
-
-/* ======================================================= */
-/* 🟢 Hero & Button Styles                                */
-/* ======================================================= */
-.button-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 28px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 8px;
-  background: var(--accent-gradient);
-  color: white;
-  box-shadow: 0px 4px 12px rgba(0, 255, 163, 0.3);
-  transition: all 0.3s ease-in-out;
-  background-size: 300% 300%;
-  -webkit-animation: movingTextGradient 6s linear infinite;
-  animation: movingTextGradient 6s linear infinite;
-}
-
-@-webkit-keyframes buttonGlow {
-  0% { box-shadow: 0 0 10px rgba(0, 255, 163, 0.25); }
-  50% { box-shadow: 0 0 12px rgba(127, 90, 240, 0.35); }
-  100% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.3); }
-}
-@keyframes buttonGlow {
-  0% { box-shadow: 0 0 10px rgba(0, 255, 163, 0.25); }
-  50% { box-shadow: 0 0 12px rgba(127, 90, 240, 0.35); }
-  100% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.3); }
-}
-
-.button-primary:hover {
-  transform: scale(1.08);
-  -webkit-animation: buttonGlow 1.5s ease-in-out infinite alternate;
-  animation: buttonGlow 1.5s ease-in-out infinite alternate;
-}
-
-/* Hero Subtitle (subtle glow & bigger text) */
-.hero-subtitle {
-  font-size: 1.2rem; /* smaller default for mobile */
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
-  max-width: 720px;
-  text-align: center;
-  line-height: 1.4; /* improved readability on small screens */
-  margin: 0 auto;   /* center in container */
-
-  text-shadow:
-    0px 0px 8px rgba(127, 90, 240, 0.2),
-    0px 0px 10px rgba(0, 255, 163, 0.2),
-    0px 0px 12px rgba(255, 0, 128, 0.2);
-}
-
-@media (min-width: 640px) {
-  .hero-subtitle {
-    font-size: 1.5rem;
-  }
-  .button-primary {
-    font-size: 1.25rem;
-  }
-}
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ 
+ /* ======================================================= */
+ /* 🎨 Root Theme Variables (Color, Fonts, Gradients)      */
+ /* ======================================================= */
+ :root {
+   --background: #ffffff;
+   --foreground: #171717;
+   --font-primary: "Press Start 2P", cursive;
+   --font-secondary: "Inter", sans-serif;
+   --accent-primary: #00ffa3;    /* Vibrant Web3 Green */
+   --accent-secondary: #7f5af0;  /* Purple Gradient */
+   --accent-highlight: #ff0080;  /* Pink Edge */
+   --accent-gradient: linear-gradient(
+     90deg,
+     #00ffa3 0%,
+     #7f5af0 50%,
+     #ff0080 100%
+   );
+ }
+ 
+ @media (prefers-color-scheme: dark) {
+   :root {
+     --background: #0a0a0a;
+     --foreground: #ededed;
+   }
+ }
+ 
+ /* ======================================================= */
+ /* 🔤 Heading Styles (Moving Gradient & Subtle Glow)      */
+ /* ======================================================= */
+ h1, h2, h3, h4, h5, h6 {
+   font-family: var(--font-primary);
+   text-transform: uppercase;
+   letter-spacing: 1.5px;
+   line-height: 1.2;
+ }
+ 
+ .subtle-glow {
+   text-shadow:
+     0 0 4px rgba(127, 90, 240, 0.25),
+     0 0 6px rgba(0, 255, 163, 0.2),
+     0 0 8px rgba(255, 0, 128, 0.2);
+ }
+ 
+ /* ======================================================= */
+ /* 🌈 Animated Gradients (Text & Background)             */
+ /* ======================================================= */
+ 
+ /* 🔸 Keyframes with WebKit prefix for older iOS support */
+ @-webkit-keyframes movingTextGradient {
+   0% { background-position: 0% 50%; }
+   25% { background-position: 50% 50%; }
+   50% { background-position: 100% 50%; }
+   75% { background-position: 50% 50%; }
+   100% { background-position: 0% 50%; }
+ }
+ @keyframes movingTextGradient {
+   0% { background-position: 0% 50%; }
+   25% { background-position: 50% 50%; }
+   50% { background-position: 100% 50%; }
+   75% { background-position: 50% 50%; }
+   100% { background-position: 0% 50%; }
+ }
+ 
+ .animate-text-glow {
+   background-image: var(--accent-gradient);
+   background-size: 300% 300%;
+   -webkit-animation: movingTextGradient 6s linear infinite;
+   animation: movingTextGradient 6s linear infinite;
+ }
+ 
+ /* 🔸 Background Shift Animation */
+ @-webkit-keyframes gradientShift {
+   0% { background-position: 0% 50%; }
+   50% { background-position: 100% 50%; }
+   100% { background-position: 0% 50%; }
+ }
+ @keyframes gradientShift {
+   0% { background-position: 0% 50%; }
+   50% { background-position: 100% 50%; }
+   100% { background-position: 0% 50%; }
+ }
+ 
+ .animate-gradient {
+   background-size: 250% 250%;
+   -webkit-animation: gradientShift 10s ease infinite;
+   animation: gradientShift 10s ease infinite;
+ }
+ 
+ /* ======================================================= */
+ /* 🟢 Hero & Button Styles                                */
+ /* ======================================================= */
+ .button-primary {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   padding: 14px 28px;
+   font-weight: bold;
+   font-size: 1.2rem;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+   border-radius: 8px;
+   background: var(--accent-gradient);
+   color: white;
+   box-shadow: 0px 4px 12px rgba(0, 255, 163, 0.3);
+   transition: all 0.3s ease-in-out;
+   background-size: 300% 300%;
+   -webkit-animation: movingTextGradient 6s linear infinite;
+   animation: movingTextGradient 6s linear infinite;
+ }
+ 
+ @-webkit-keyframes buttonGlow {
+   0% { box-shadow: 0 0 10px rgba(0, 255, 163, 0.25); }
+   50% { box-shadow: 0 0 12px rgba(127, 90, 240, 0.35); }
+   100% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.3); }
+ }
+ @keyframes buttonGlow {
+   0% { box-shadow: 0 0 10px rgba(0, 255, 163, 0.25); }
+   50% { box-shadow: 0 0 12px rgba(127, 90, 240, 0.35); }
+   100% { box-shadow: 0 0 10px rgba(255, 0, 128, 0.3); }
+ }
+ 
+ .button-primary:hover {
+   transform: scale(1.08);
+   -webkit-animation: buttonGlow 1.5s ease-in-out infinite alternate;
+   animation: buttonGlow 1.5s ease-in-out infinite alternate;
+ }
+ 
+ /* Hero Subtitle (subtle glow & bigger text) */
+ .hero-subtitle {
+   font-size: 1.2rem; /* smaller default for mobile */
+   font-weight: 700;
+   color: rgba(255, 255, 255, 0.9);
+   max-width: 720px;
+   text-align: center;
+   line-height: 1.4; /* improved readability on small screens */
+   margin: 0 auto;   /* center in container */
+ 
+   text-shadow:
+     0px 0px 8px rgba(127, 90, 240, 0.2),
+     0px 0px 10px rgba(0, 255, 163, 0.2),
+     0px 0px 12px rgba(255, 0, 128, 0.2);
+ }
+ 
+ @media (min-width: 640px) {
+   .hero-subtitle {
+     font-size: 1.5rem;
+   }
+   .button-primary {
+     font-size: 1.25rem;
+   }
+ }
+ 
+ @media (min-width: 1024px) {
+   .hero-subtitle {
+     font-size: 1.8rem;
+   }
+   .button-primary {
+     font-size: 1.5rem;
+   }
+ }
+ 
