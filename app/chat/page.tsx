@@ -9,7 +9,6 @@
 
 "use client";
 
-import DynamicWalletButton from "@/components/DynamicWalletButton";
 import { useUserTokens } from "@/hooks/useUserTokens";
 import ChatHeader from "@/components/ChatHeader";
 import TokenList from "@/components/TokenList";
