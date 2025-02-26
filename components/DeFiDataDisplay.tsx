@@ -30,7 +30,7 @@ const DeFiDataDisplay: React.FC<DeFiDataDisplayProps> = ({ data, loading, error 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md w-full h-full flex flex-col flex-grow">
       <h2 className="text-xl font-semibold text-black mb-2 text-center">
-        {tokenData.symbol} Market Overview
+        ${tokenData.symbol}
       </h2>
       
       <div className="grid grid-cols-2 gap-4 text-black flex-grow">
