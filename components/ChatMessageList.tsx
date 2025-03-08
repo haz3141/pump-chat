@@ -1,8 +1,8 @@
 /**
  * File: /components/ChatMessageList.tsx
- * 
  * Description:
- * - Displays chat messages in a full-width scrollable container, with all text left-aligned and no bubbles, styled simply like Telegram.
+ * - Displays chat messages in a full-width scrollable container.
+ * - Styled with consistent padding and spacing for an app-like feel.
  */
 
 import React, { useEffect, useRef } from "react";
@@ -21,11 +21,11 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, publicKey }
   }, [messages]);
 
   return (
-    <div className="chat-card flex flex-col flex-1 overflow-y-auto p-4">
+    <div className="flex flex-col flex-1 overflow-y-auto p-6">
       {messages.length > 0 ? (
         messages.map((msg) => (
-          <div key={msg.id} className="chat-message">
-            <div className="flex items-baseline gap-1">
+          <div key={msg.id} className="mb-4">
+            <div className="flex items-baseline gap-2">
               <span className="font-semibold text-teal-600">
                 {msg.sender === publicKey ? "You" : msg.sender.substring(0, 6)}:
               </span>

@@ -1,9 +1,8 @@
 /**
  * File: /components/ChatHeader.tsx
- * 
  * Description:
- * - Chat header for Kulture.Fun.
- * - Full-width sticky header with navigation and wallet button.
+ * - Full-width sticky header for Kulture.Fun with consistent padding.
+ * - Provides navigation and wallet connection for an app-like experience.
  */
 
 "use client";
@@ -19,7 +18,7 @@ const ChatHeader = () => {
 
   return (
     <header className="w-full fixed top-0 left-0 bg-gradient-to-r from-blue-600 to-teal-500 shadow-md z-50">
-      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 py-4">
+      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between p-6">
         {/* Page Title */}
         <Link
           href="/chat"
@@ -60,7 +59,7 @@ const ChatHeader = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="md:hidden flex flex-col items-center gap-4 backdrop-blur-md bg-black/80 text-white py-4 shadow-lg"
+            className="md:hidden flex flex-col items-center gap-4 backdrop-blur-md bg-black/80 text-white py-6 shadow-lg"
           >
             <Button href="/explore" variant="custom" size="md" className="text-white hover:scale-105 transition-transform">
               Explore
