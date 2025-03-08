@@ -1,6 +1,5 @@
 /**
  * File: /components/StakingMockup.tsx
- *
  * Description:
  * - Users stake the current chat token and earn $KULT.
  * - Displays estimated rewards based on staking amount.
@@ -12,54 +11,39 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 interface StakingMockupProps {
-  tokenSymbol: string; // Token of the current chat
+  tokenSymbol: string;
 }
 
 const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol }) => {
   const [stakeAmount, setStakeAmount] = useState<number>(0);
-  const apy = 20; // Fixed APY for mockup
+  const apy = 20;
   const estimatedRewards = ((stakeAmount * apy) / 100).toFixed(2);
 
   return (
     <motion.div
-      className="bg-white p-4 rounded-lg shadow-md w-full"
+      className="chat-card"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Staking Title */}
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">Staking</h2>
-
-      {/* Stake Amount Input */}
-      <label className="block text-sm text-gray-600 mb-1">
-        Stake {tokenSymbol}
-      </label>
+      <h2 className="text-lg font-bold text-gray-900 mb-4">Staking</h2>
+      <label className="block text-sm text-teal-600 mb-1">Stake {tokenSymbol}</label>
       <input
         type="number"
         value={stakeAmount}
         onChange={(e) => setStakeAmount(Number(e.target.value))}
-        className="w-full p-2 border rounded-lg text-sm mb-3"
+        className="chat-input mb-4"
         placeholder="Enter amount"
       />
-
-      {/* Estimated Rewards */}
-      <div className="bg-gray-100 p-3 rounded-lg text-sm mb-3">
-        <p className="text-gray-700">Estimated Rewards</p>
+      <div className="bg-gray-100 p-3 rounded-lg text-sm mb-4">
+        <p className="text-teal-600">Estimated Rewards</p>
         <p className="font-medium text-gray-900">{estimatedRewards} $KULT / year</p>
       </div>
-
-      {/* Stake & Unstake Buttons */}
-      <div className="flex justify-between">
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-600"
-        >
+      <div className="flex gap-4">
+        <motion.button whileTap={{ scale: 0.95 }} className="chat-button flex-1">
           Stake
         </motion.button>
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600"
-        >
+        <motion.button whileTap={{ scale: 0.95 }} className="chat-button flex-1 bg-red-600 hover:bg-red-700">
           Unstake
         </motion.button>
       </div>

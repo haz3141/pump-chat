@@ -1,10 +1,10 @@
 /**
  * File: /app/chat/[contractAddress]/page.tsx
- * 
+ *
  * Description:
- * - Chat room page for a specific token-based chat.
+ * - Chat room for a specific token-based chat.
  * - Displays chat messages and allows users to send new messages.
- * - Auto-scrolls to the latest message.
+ * - Maximizes horizontal space for an app-like experience.
  * - Displays DeFi data, GeckoTerminal chart, and staking mockup.
  */
 
@@ -21,68 +21,72 @@ import useChat from "@/hooks/useChat";
 import { sendMessage } from "@/lib/chatUtils";
 import useDeFiData from "@/hooks/useDeFiData";
 import DeFiDataDisplay from "@/components/DeFiDataDisplay";
-import ChatFooter from "@/components/ChatFooter";
-import StakingMockup from "@/components/StakingMockup"; // Import staking mockup
+import StakingMockup from "@/components/StakingMockup";
 
 export default function ChatPage() {
   const { contractAddress } = useParams<{ contractAddress: string }>();
-  const [newMessage, setNewMessage] = useState("");
+  const contractAddressString = contractAddress ?? "";
+
+  const [newMessage, setNewMessage] = useState(""); // ✅ Make sure state updates properly
+  const messages = useChat(contractAddressString);
   const { publicKey } = useWallet();
 
-  const contractAddressString = contractAddress ?? "";
-  const messages = useChat(contractAddressString);
-  const network = "solana"; // Adjust as needed
+  const network = "solana";
   const { data, loading, error } = useDeFiData(network, contractAddressString);
 
-  const handleSendMessage = () => {
-    if (contractAddressString && publicKey) {
-      sendMessage(contractAddressString, publicKey, newMessage).then(() => {
-        setNewMessage("");
-      });
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) return;
+    if (!contractAddressString || !publicKey) {
+      alert("You must connect your wallet to send messages.");
+      return;
+    }
+
+    try {
+      await sendMessage(contractAddressString, publicKey, newMessage);
+      setNewMessage(""); // ✅ Clear input after sending
+    } catch (error) {
+      console.error("❌ Failed to send message:", error);
     }
   };
 
+  const isDisabled = !publicKey;
+
   return (
-    <main className="h-screen overflow-hidden flex flex-col bg-gray-100 p-6">
-      {/* Page Header */}
+    <div className="flex flex-col w-full h-screen bg-gray-100">
+      {/* Page Header (Sticky) */}
       <ChatHeader />
 
-      {/* Main Content Layout */}
-      <div className="flex-1 w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 overflow-hidden">
-
-        {/* Left Section: Chat */}
-        <div className="flex-1 bg-white p-4 rounded-lg shadow-md flex flex-col overflow-hidden">
+      {/* Main Chat Container */}
+      <div className="flex-1 flex flex-col md:flex-row w-full max-w-[98vw] mx-auto gap-4 overflow-hidden pt-[80px]">
+        {/* Left Section: Chat Panel */}
+        <div className="flex-1 bg-white rounded-lg shadow-md flex flex-col overflow-hidden w-full px-2 md:px-4">
           <ChatContractInfo
             contractAddress={contractAddressString}
             name={data?.data?.attributes?.name}
             symbol={data?.data?.attributes?.symbol}
           />
-          {/* Chat Messages Container */}
-          <div className="flex-1 overflow-y-auto mb-4 p-2 border border-gray-200 rounded-lg">
+          <div className="flex-1 overflow-y-auto px-2 py-3">
             <ChatMessageList messages={messages} publicKey={publicKey?.toBase58()} />
           </div>
-          {/* Chat Input fixed at the bottom */}
-          <div className="sticky bottom-0 bg-white p-2">
+          <div className="w-full sticky bottom-0 bg-white px-3 py-2">
             <ChatInput
               newMessage={newMessage}
-              setNewMessage={setNewMessage}
+              setNewMessage={setNewMessage} // ✅ Ensure this updates state
               sendMessage={handleSendMessage}
-              disabled={!newMessage.trim()}
+              disabled={isDisabled}
             />
           </div>
         </div>
 
         {/* Right Section: DeFi Data & Staking */}
-        <div className="w-full md:w-[25%] max-w-sm bg-white p-4 rounded-lg shadow-md flex flex-col overflow-y-auto">
+        <div className="hidden md:flex w-[30%] max-w-[380px] bg-white rounded-lg shadow-md flex-col overflow-hidden">
           <DeFiDataDisplay data={data} loading={loading} error={error} />
-          <div className="w-full mt-4">
+          <div className="w-full mt-4 px-3 pb-4">
             <StakingMockup tokenSymbol={data?.data?.attributes?.symbol || "TOKEN"} />
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <ChatFooter />
-    </main>
+    </div>
   );
 }
+

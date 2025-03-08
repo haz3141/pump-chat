@@ -1,14 +1,16 @@
 /**
  * File: /app/chat/page.tsx
+ * 
  * Description:
- * - Main chat page for Pump.Chat.
+ * - Main chat page for Kulture.Fun.
  * - Allows users to connect their wallet and view their fungible tokens.
- * - Provides access to token-specific chat rooms.
+ * - Provides access to token-specific chat rooms with search and tabbed navigation.
  * - Displays Top Chats and Trending Tokens in a horizontal layout.
  */
 
 "use client";
 
+import { useState } from "react";
 import { useUserTokens } from "@/hooks/useUserTokens";
 import ChatHeader from "@/components/ChatHeader";
 import TokenList from "@/components/TokenList";
@@ -18,43 +20,79 @@ import ErrorMessage from "@/components/ErrorMessage";
 import NoTokensMessage from "@/components/NoTokensMessage";
 import TopChats from "@/components/TopChats";
 import TrendingTokens from "@/components/TrendingTokens";
-import ChatFooter from "@/components/ChatFooter"; // Importing the footer
+import ChatFooter from "@/components/ChatFooter";
 
 export default function ChatPage() {
-  const { tokens, loading, error, isConnected } = useUserTokens();
+  const { tokens, loading, error, isAuthenticated } = useUserTokens();
+  const [activeTab, setActiveTab] = useState("my-tokens");
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-start gap-6 bg-gray-100 px-6 py-4">
-      {/* Page Title & Navigation */}
+    <main className="min-h-screen flex flex-col items-center justify-start gap-6 bg-gray-100 px-6 py-4 pt-[80px]">
       <ChatHeader />
 
-      {/* Display Top Chats & Trending Tokens in the same row */}
-      <div className="w-full max-w-4xl flex flex-wrap justify-between gap-4">
-        <TopChats />
-        <TrendingTokens />
+      {/* Search Bar */}
+      <div className="w-full max-w-5xl">
+        <input
+          type="text"
+          placeholder="Search tokens or chats..."
+          className="chat-input w-full mb-6"
+        />
       </div>
 
-      {/* Prompt user to connect wallet if not connected */}
-      {!isConnected && <WalletPrompt />}
+      {/* Tabs */}
+      <div className="w-full max-w-5xl flex gap-4 mb-6">
+        <button
+          className={`px-4 py-2 rounded-lg ${activeTab === "my-tokens" ? "bg-teal-600 text-white" : "bg-gray-200 text-gray-600"}`}
+          onClick={() => setActiveTab("my-tokens")}
+        >
+          My Tokens
+        </button>
+        <button
+          className={`px-4 py-2 rounded-lg ${activeTab === "trending" ? "bg-teal-600 text-white" : "bg-gray-200 text-gray-600"}`}
+          onClick={() => setActiveTab("trending")}
+        >
+          Trending
+        </button>
+        <button
+          className={`px-4 py-2 rounded-lg ${activeTab === "top-chats" ? "bg-teal-600 text-white" : "bg-gray-200 text-gray-600"}`}
+          onClick={() => setActiveTab("top-chats")}
+        >
+          Top Chats
+        </button>
+      </div>
 
-      {/* Display loading state */}
-      {loading && <LoadingMessage />}
-
-      {/* Display error message if token fetch fails */}
-      {error && <ErrorMessage message={error} />}
-
-      {/* Display token list and join chat buttons if tokens are available */}
-      {isConnected && !loading && !error && tokens.length > 0 && (
-        <TokenList tokens={tokens} />
+      {/* Content */}
+      {activeTab === "my-tokens" && (
+        <>
+          {!isAuthenticated && <WalletPrompt />}
+          {loading && <LoadingMessage />}
+          {error && <ErrorMessage message={error} />}
+          {isAuthenticated && !loading && !error && tokens.length > 0 && (
+            <div className="w-full max-w-5xl">
+              <TokenList tokens={tokens} />
+            </div>
+          )}
+          {isAuthenticated && !loading && !error && tokens.length === 0 && (
+            <NoTokensMessage />
+          )}
+        </>
+      )}
+      {activeTab === "trending" && (
+        <div className="w-full max-w-5xl flex flex-col md:flex-row justify-between gap-6">
+          <div className="flex-1 min-w-[45%]">
+            <TrendingTokens />
+          </div>
+        </div>
+      )}
+      {activeTab === "top-chats" && (
+        <div className="w-full max-w-5xl flex flex-col md:flex-row justify-between gap-6">
+          <div className="flex-1 min-w-[45%]">
+            <TopChats />
+          </div>
+        </div>
       )}
 
-      {/* Message when no tokens are found in the connected wallet */}
-      {isConnected && !loading && !error && tokens.length === 0 && (
-        <NoTokensMessage />
-      )}
-
-      {/* Footer */}
-      <ChatFooter /> {/* Add the footer here */}
+      <ChatFooter />
     </main>
   );
 }

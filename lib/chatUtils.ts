@@ -1,11 +1,13 @@
 /**
  * File: /lib/chatUtils.ts
+ * 
  * Description:
  * - Utility functions for chat operations.
+ * - Ensures only authenticated users can send messages.
  */
 
 import { ref, push } from "firebase/database";
-import { realtimeDB } from "@/lib/firebaseConfig";
+import { auth, realtimeDB } from "@/lib/firebaseConfig";
 import { PublicKey } from "@solana/web3.js";
 
 export const sendMessage = async (
@@ -17,8 +19,16 @@ export const sendMessage = async (
     alert("Cannot send an empty message!");
     return;
   }
+
   if (!publicKey) {
     alert("Please connect your wallet to send messages.");
+    return;
+  }
+
+  const currentUser = auth.currentUser; // ✅ Check Firebase auth state
+
+  if (!currentUser) {
+    alert("You must be authenticated to send messages.");
     return;
   }
 
@@ -31,9 +41,9 @@ export const sendMessage = async (
 
   try {
     await push(chatRef, messageData);
-    console.log("Message sent successfully!");
+    console.log("✅ Message sent successfully!");
   } catch (error) {
-    console.error("Error sending message:", error);
+    console.error("❌ Error sending message:", error);
     alert("Failed to send message.");
   }
 };

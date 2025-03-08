@@ -3,7 +3,8 @@
  *
  * Description:
  * - Displays a list of trending Solana memecoins with price changes.
- * - Allows users to join chat rooms for each trending token.
+ * - Allows users to join chat rooms for each trending token via a button.
+ * - Styled as a modern card with consistent app-like design.
  */
 
 import React from "react";
@@ -16,19 +17,23 @@ const mockTrendingTokens = [
 
 const TrendingTokens: React.FC = () => {
   return (
-    <div className="flex-1 bg-white p-4 rounded-lg shadow-md min-w-[250px]">
-      <h2 className="text-lg font-semibold mb-2 text-black">🚀 Trending Tokens</h2>
-      <ul className="text-black">
+    <div className="chat-card flex-1 min-w-[250px]">
+      <h2 className="text-lg font-semibold text-gray-900 mb-4">🚀 Trending Tokens</h2>
+      <ul className="space-y-4">
         {mockTrendingTokens.map((token, index) => (
-          <li key={index} className="py-2 border-b last:border-none flex justify-between items-center">
-            <div>
-              <span className="font-medium">{token.name}</span>{" "}
-              <span className="text-gray-500">(${token.price.toFixed(4)})</span>
-              <span className={token.change >= 0 ? "text-green-500 ml-2" : "text-red-500 ml-2"}>
+          <li key={index} className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-gray-900">{token.name}</span>
+              <span className="text-sm text-gray-500">(${token.price.toFixed(4)})</span>
+              <span
+                className={`text-sm ${
+                  token.change >= 0 ? "text-green-600" : "text-red-600"
+                }`}
+              >
                 {token.change >= 0 ? `+${token.change}%` : `${token.change}%`}
               </span>
             </div>
-            <button className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600">
+            <button className="chat-button text-sm px-3 py-1">
               Chat
             </button>
           </li>

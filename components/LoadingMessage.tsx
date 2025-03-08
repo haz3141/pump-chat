@@ -1,14 +1,20 @@
 /**
  * File: /components/LoadingMessage.tsx
+ *
  * Description:
- * - Displays a loading message.
+ * - Displays a loading message with a subtle animation.
+ * - Styled as a centered card for consistency with the chat app design.
  */
 
 import React from "react";
 
 const LoadingMessage: React.FC = () => {
   return (
-    <p className="text-gray-500">Loading tokens...</p>
+    <div className="chat-card text-center py-6">
+      <p className="text-gray-500 text-base">
+        Loading tokens... <span className="inline-block animate-pulse">⏳</span>
+      </p>
+    </div>
   );
 };
 
