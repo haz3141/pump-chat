@@ -8,7 +8,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import DynamicWalletButton from "@/components/DynamicWalletButton";
 import Button from "@/components/Button";
 import Link from "next/link";
