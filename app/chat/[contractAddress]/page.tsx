@@ -1,11 +1,3 @@
-/**
- * File: /app/chat/[contractAddress]/page.tsx
- * @description A responsive chat interface for a specific token, ensuring DeFiDataDisplay
- *              and StakingMockup fill the vertical space without large gaps on all screen sizes.
- * @author [Your Name]
- * @version 1.2
- */
-
 "use client";
 
 import { useParams } from "next/navigation";
@@ -16,13 +8,14 @@ import ChatMessageList from "@/components/ChatMessageList";
 import ChatInput from "@/components/ChatInput";
 import ChatContractInfo from "@/components/ChatContractInfo";
 import ChatHeader from "@/components/ChatHeader";
+import ChatroomFooter from "@/components/ChatroomFooter";
 import useChat from "@/hooks/useChat";
 import { sendMessage } from "@/lib/chatUtils";
 import useDeFiData from "@/hooks/useDeFiData";
 import DeFiDataDisplay from "@/components/DeFiDataDisplay";
 import StakingMockup from "@/components/StakingMockup";
 
-// Type definitions for better type safety
+// Type definitions for type safety
 interface Token {
   id: string;
   token_info: {
@@ -33,7 +26,9 @@ interface Token {
 
 /**
  * ChatPage Component
- * @returns {JSX.Element} Rendered chat and DeFi interface
+ * - **Ensures full viewport fit** without overflow.
+ * - **No components hidden behind the header**.
+ * - **Only chat messages scroll**, everything else is **static**.
  */
 export default function ChatPage() {
   const { contractAddress } = useParams<{ contractAddress: string }>();
@@ -47,7 +42,7 @@ export default function ChatPage() {
   const { data, loading: defiLoading, error: defiError } = useDeFiData(network, contractAddressString);
   const { tokens, loading: balanceLoading, error: balanceError } = useUserTokens();
 
-  // Memoized calculation to prevent re-computation on every render
+  // Calculate available balance
   const getAvailableBalance = useCallback(() => {
     const token = tokens.find((t: Token) => t.id === contractAddressString);
     return token ? token.token_info.balance / 10 ** token.token_info.decimals : 0;
@@ -73,13 +68,15 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col w-full h-screen bg-gray-100 overflow-hidden">
-      {/* Sticky Header */}
-      <ChatHeader />
+      {/* Fixed Header */}
+      <div className="fixed top-0 left-0 right-0 z-10">
+        <ChatHeader />
+      </div>
 
-      {/* Main Content - Constrained to prevent overflow */}
-      <div className="flex-1 flex flex-col md:flex-row w-full max-w-[98vw] mx-auto gap-6 pt-24 px-6 overflow-hidden">
-        {/* Chat Panel - Left Side */}
-        <div className="flex-1 bg-white rounded-lg shadow-md flex flex-col overflow-hidden w-full">
+      {/* Main Layout - **Now fully adjusted for the viewport** */}
+      <div className="flex-1 flex flex-col md:flex-row w-full max-w-[98vw] mx-auto gap-6 px-6 pt-[72px] pb-[48px] overflow-hidden">
+        {/* Chat Panel - **Perfectly scaled height** */}
+        <div className="flex-1 bg-white rounded-lg shadow-md flex flex-col overflow-hidden w-full h-[calc(100vh-120px)]">
           <ChatContractInfo
             contractAddress={contractAddressString}
             name={data?.data?.attributes?.name}
@@ -88,41 +85,44 @@ export default function ChatPage() {
           <div className="flex-1 overflow-y-auto">
             <ChatMessageList messages={messages} publicKey={publicKey?.toBase58()} />
           </div>
-          <div className="w-full sticky bottom-0 bg-white">
-            <ChatInput
-              newMessage={newMessage}
-              setNewMessage={setNewMessage}
-              sendMessage={handleSendMessage}
-              disabled={isDisabled}
-            />
-          </div>
+          <ChatInput
+            newMessage={newMessage}
+            setNewMessage={setNewMessage}
+            sendMessage={handleSendMessage}
+            disabled={isDisabled}
+          />
         </div>
 
-        {/* Right Column - DeFi Data & Staking with proper vertical space utilization */}
-        <div className="hidden md:flex w-full md:w-1/3 flex-col gap-3 h-[calc(100vh-96px)] overflow-hidden">
-          {/* DeFi Data - Takes available space and grows to fill gap */}
-          <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+        {/* DeFi Data & Staking - **Now perfectly aligned** */}
+        <div className="hidden md:flex w-full md:w-1/3 flex-col gap-3 h-[calc(100vh-120px)]">
+          {/* DeFi Data - **Expands correctly** */}
+          <div className="flex-1">
             <DeFiDataDisplay data={data} loading={defiLoading} error={defiError} />
           </div>
 
-          {/* Staking - Maintains minimum height and follows DeFiDataDisplay */}
-          {balanceLoading ? (
-            <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-900 flex-shrink-0" aria-live="polite">
-              Loading balance...
-            </div>
-          ) : balanceError ? (
-            <div className="bg-white rounded-lg shadow-md p-4 text-center text-red-600 font-medium flex-shrink-0" aria-live="polite">
-              Error loading balance: {balanceError}
-            </div>
-          ) : (
-            <div className="flex-shrink-0 flex flex-col min-h-0 overflow-hidden">
+          {/* Staking - **Now fills vertical space correctly** */}
+          <div className="flex-1">
+            {balanceLoading ? (
+              <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-900 flex-1">
+                Loading balance...
+              </div>
+            ) : balanceError ? (
+              <div className="bg-white rounded-lg shadow-md p-4 text-center text-red-600 font-medium flex-1">
+                Error loading balance: {balanceError}
+              </div>
+            ) : (
               <StakingMockup
                 tokenSymbol={data?.data?.attributes?.symbol || "TOKEN"}
                 availableBalance={availableBalance}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* Fixed Footer */}
+      <div className="fixed bottom-0 left-0 right-0 z-10">
+        <ChatroomFooter />
       </div>
     </div>
   );
