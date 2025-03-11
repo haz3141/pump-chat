@@ -12,7 +12,7 @@ export default function HackathonPage() {
 
   useEffect(() => {
     // Redirect to the YouTube video demo
-    router.push("https://youtu.be/nuC81oW4-lg");
+    router.push("https://youtu.be/t1xnc9OpNrA");
   }, [router]);
 
   return (
