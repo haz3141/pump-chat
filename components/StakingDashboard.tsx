@@ -1,8 +1,17 @@
+"use client";
+
 import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useUserTokens } from "@/hooks/useUserTokens";
 import useDeFiData from "@/hooks/useDeFiData";
+import { STACKS_TESTNET } from "@stacks/network";
+import { makeContractCall, broadcastTransaction, uintCV, standardPrincipalCV, TxBroadcastResultOk, TxBroadcastResultRejected } from "@stacks/transactions";
+
+// Load environment variables
+if (typeof window === "undefined") {
+  require("dotenv").config();
+}
 
 interface StakingDashboardProps {
   contractAddress?: string;
@@ -13,6 +22,8 @@ const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) 
   const { tokens } = useUserTokens();
 
   const [selectedTokenId, setSelectedTokenId] = useState<string | null>(null);
+  const [stacksAddress, setStacksAddress] = useState<string>("");
+  const [rewardStatus, setRewardStatus] = useState<string>("Idle");
   const selectedToken = tokens.find((t) => t.id === selectedTokenId);
 
   const tokenName = selectedToken?.content?.metadata?.name || "Choose Token from Wallet";
@@ -50,6 +61,54 @@ const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) 
 
   const handleMaxStake = () => setStakeAmount(availableBalance);
 
+  // Stacks Testnet config
+  const network = STACKS_TESTNET;
+  const contractAddressStacks = "ST2PQ57VQVWPS69J5W91EM6BXE75QD2Q701ANXXKZ"; // Deployed address
+  const contractName = "kult-token";
+  const ownerPrivateKey = process.env.STACKS_PRIVATE_KEY || ""; // Load from environment variable
+
+  const handleRewardUser = async () => {
+    if (!stacksAddress) {
+      setRewardStatus("Error: Enter a Stacks address");
+      return;
+    }
+    if (!publicKey) {
+      setRewardStatus("Error: Connect Solana wallet first");
+      return;
+    }
+    if (!ownerPrivateKey) {
+      setRewardStatus("Error: Private key missing in environment");
+      return;
+    }
+
+    const rewardAmount = Math.round(parseFloat(yourRewardsEarned) * 1_000_000); // Convert to micro-kult
+
+    const txOptions = {
+      contractAddress: contractAddressStacks,
+      contractName,
+      functionName: "reward-user",
+      functionArgs: [uintCV(rewardAmount), standardPrincipalCV(stacksAddress)],
+      network,
+      senderKey: ownerPrivateKey,
+    };
+
+    setRewardStatus("Pending...");
+    try {
+      const transaction = await makeContractCall(txOptions);
+      const broadcastResult = await broadcastTransaction({ transaction, network });
+
+      if ((broadcastResult as TxBroadcastResultOk).txid) {
+        const txid = (broadcastResult as TxBroadcastResultOk).txid;
+        setRewardStatus(`Success: Tx ID ${txid}`);
+      } else {
+        const rejectedResult = broadcastResult as TxBroadcastResultRejected;
+        setRewardStatus(`Error: ${rejectedResult.reason || "Broadcast failed"}`);
+      }
+    } catch (error: any) {
+      setRewardStatus(`Error: ${error.message || "Unknown error"}`);
+    }
+  };
+
   return (
     <motion.div
       className="bg-white rounded-lg shadow-md p-6 flex flex-col gap-4 w-full md:w-[400px] h-full"
@@ -58,96 +117,23 @@ const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) 
       transition={{ duration: 0.5 }}
     >
       <div className="flex flex-col gap-2">
-        <label className="text-gray-700 text-base font-semibold">Select Token to Stake:</label>
-        <select
+        <label className="text-gray-700 text-base font-semibold">Your Stacks Address (for KULT rewards):</label>
+        <input
+          type="text"
+          value={stacksAddress}
+          onChange={(e) => setStacksAddress(e.target.value)}
           className="w-full border border-gray-300 rounded-lg p-2 text-gray-900 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500"
-          value={selectedTokenId || ""}
-          onChange={(e) => setSelectedTokenId(e.target.value)}
-        >
-          <option value="">Choose Token from Your Wallet</option>
-          {tokens.map((token) => (
-            <option key={token.id} value={token.id}>
-              {token.content.metadata.symbol} ({token.content.metadata.name}) – {(
-                token.token_info.balance /
-                10 ** token.token_info.decimals
-              ).toLocaleString()}{" "}
-              {token.content.metadata.symbol}
-            </option>
-          ))}
-        </select>
+          placeholder="Enter your Stacks address (e.g., ST1PQHQ...)"
+        />
       </div>
 
-      <div className="flex flex-col gap-1 text-center">
-        <h2 className="text-xl font-bold text-gray-900">{tokenName}</h2>
-        <p className="text-teal-600 font-semibold text-base">${tokenSymbol}</p>
-        {contractAddress && <p className="text-sm text-gray-500 break-all">{contractAddress}</p>}
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-between items-center text-base">
-          <span className="text-gray-600 font-medium">Available Balance:</span>
-          <span className="text-gray-900 font-semibold">
-            {availableBalance.toLocaleString()} {tokenSymbol}
-          </span>
-        </div>
-        <div className="relative">
-          <input
-            type="number"
-            value={stakeAmount}
-            onChange={(e) => setStakeAmount(Math.min(Number(e.target.value), availableBalance))}
-            className="w-full border border-gray-300 rounded-lg p-3 pr-12 text-gray-900 font-bold text-base focus:outline-none focus:ring-2 focus:ring-teal-500"
-            placeholder="Enter amount"
-            min="0"
-            max={availableBalance}
-          />
-          <button
-            onClick={handleMaxStake}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-teal-600 text-base font-bold hover:text-teal-700 transition"
-          >
-            Max
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 text-base bg-gray-50 p-4 rounded-lg">
-        <div className="flex flex-col">
-          <span className="text-gray-600">Estimated Rewards:</span>
-          <span className="text-gray-900 font-bold">{finalRewards} $KULT / year</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-gray-600">Governance Power:</span>
-          <span className="text-teal-600 font-bold">{governancePower}</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-gray-600">Lockup Period:</span>
-          <span className="text-gray-900 font-bold">{lockupPeriod} days</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-gray-600">KULT Multiplier:</span>
-          <span className="text-teal-600 font-bold">x{kultMultiplier}</span>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        <span className="text-gray-600">Total Community Staked:</span>
-        <span className="text-gray-900 font-bold">{totalCommunityStaked} $KULT</span>
-        <span className="text-gray-900 font-bold">{communityStakerCount} users</span>
-      </div>
-
-      <div className="flex flex-col gap-1 text-center">
-        <h3 className="text-base font-semibold text-gray-900">Your Staking Stats:</h3>
-        <p className="text-gray-600">You have staked: {stakeAmount} $KULT</p>
-        <p className="text-gray-600">Total rewards earned: {yourRewardsEarned} $KULT</p>
-      </div>
-
-      <div className="flex gap-3">
-        <motion.button className="flex-1 py-3 text-base rounded-lg bg-teal-600 text-white font-bold hover:bg-teal-700 transition">
-          Stake
-        </motion.button>
-        <motion.button className="flex-1 py-3 text-base rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 transition">
-          Unstake
-        </motion.button>
-      </div>
+      <motion.button
+        onClick={handleRewardUser}
+        className="py-3 text-base rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 transition"
+      >
+        Claim {yourRewardsEarned} KULT Rewards
+      </motion.button>
+      <p className="text-sm text-gray-600">Reward Status: {rewardStatus}</p>
     </motion.div>
   );
 };

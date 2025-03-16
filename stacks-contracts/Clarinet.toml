@@ -1,0 +1,5 @@
+[project]
+name = "stacks-contracts"
+
+[contracts.kult-token]
+path = "contracts/kult-token.clar"
