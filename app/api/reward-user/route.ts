@@ -4,7 +4,6 @@ import {
   broadcastTransaction,
   uintCV,
   standardPrincipalCV,
-  TxBroadcastResultOk,
   TxBroadcastResultRejected,
   StacksTransactionWire,
 } from "@stacks/transactions";

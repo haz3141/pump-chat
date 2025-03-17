@@ -14,11 +14,7 @@ import DynamicBitcoinWalletButton from "@/components/DynamicBitcoinWalletButton"
  * - Provides **Governance Power & Estimated Rewards**.
  */
 
-interface StakingDashboardProps {
-  contractAddress?: string;
-}
-
-const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) => {
+const StakingDashboard: React.FC = () => {
   const { publicKey } = useWallet();
   const { tokens } = useUserTokens(); // ✅ Fetch user's Solana tokens
 
@@ -31,8 +27,6 @@ const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) 
 
   // ✅ Token Details
   const selectedToken = tokens.find((t) => t.id === selectedTokenId);
-  const tokenName = selectedToken?.content?.metadata?.name || "Choose Token";
-  const tokenSymbol = selectedToken?.content?.metadata?.symbol || "---";
   const availableBalance = selectedToken ? selectedToken.token_info.balance / 10 ** selectedToken.token_info.decimals : 0;
 
   // ✅ Staking Parameters
@@ -111,8 +105,8 @@ const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) 
       } else {
         setRewardStatus(`Error: ${data.error}`);
       }
-    } catch (error: any) {
-      setRewardStatus(`Error: ${error.message || "Unknown error"}`);
+    } catch (error: unknown) {
+      setRewardStatus(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
   };
 
@@ -199,32 +193,7 @@ const StakingDashboard: React.FC<StakingDashboardProps> = ({ contractAddress }) 
       </motion.button>
 
       {/* Reward Status */}
-      <div className="text-sm text-gray-600 flex items-center gap-2">
-        Reward Status:{" "}
-        {transactionId ? (
-          <div className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded-lg">
-            <span className="text-gray-700">Success: Tx ID</span>
-            <a
-              href={`https://explorer.hiro.so/txid/${transactionId}?chain=testnet`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 underline truncate max-w-[180px] md:max-w-[250px] overflow-hidden"
-              title={transactionId}
-            >
-              {transactionId.slice(0, 6)}...{transactionId.slice(-6)}
-            </a>
-            <button
-              onClick={() => navigator.clipboard.writeText(transactionId)}
-              className="text-gray-500 hover:text-gray-700 transition"
-              title="Copy Transaction ID"
-            >
-              📋
-            </button>
-          </div>
-        ) : (
-          rewardStatus
-        )}
-      </div>
+      <div className="text-sm text-gray-600">{rewardStatus}</div>
     </motion.div>
   );
 };
