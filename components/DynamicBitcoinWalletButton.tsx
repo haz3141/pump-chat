@@ -35,7 +35,7 @@ const DynamicBitcoinWalletButton = ({ setStacksAddress }: { setStacksAddress: (a
         setStacksAddress(address); // ✅ Update Parent Component
       }
     }
-  }, []);
+  }, [setStacksAddress]); // ✅ Added to dependency array
 
   // ✅ Handle Wallet Connection
   const handleConnect = async () => {
