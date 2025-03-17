@@ -1,10 +1,3 @@
-/**
- * File: /components/ChatContractInfo.tsx
- * Description:
- * - Displays token contract details with consistent padding and spacing.
- * - Highlights token name and symbol with a premium, app-like design.
- */
-
 import React, { useState } from "react";
 import Button from "@/components/Button";
 import { ClipboardIcon, CheckIcon } from "@heroicons/react/24/outline";
@@ -30,13 +23,13 @@ const ChatContractInfo: React.FC<ChatContractInfoProps> = ({ contractAddress, na
   };
 
   return (
-    <div className="p-6 flex flex-col gap-6">
+    <div className="p-4 pb-2 flex flex-col gap-4 bg-teal-50 rounded-lg shadow-sm z-10 relative"> {/* Reduced bottom padding to pb-2 */}
       {/* Token Info */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900">
           {name || "Unknown"} <span className="text-teal-600">(${symbol || "N/A"})</span>
         </h2>
-        <div className="flex items-center gap-2 text-sm text-gray-600 mt-4">
+        <div className="flex items-center gap-2 text-sm text-gray-600 mt-2"> {/* Reduced mt-4 to mt-2 */}
           <a href={solscanUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-semibold">
             CA:
           </a>

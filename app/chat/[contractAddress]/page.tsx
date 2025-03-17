@@ -15,7 +15,6 @@ import useDeFiData from "@/hooks/useDeFiData";
 import DeFiDataDisplay from "@/components/DeFiDataDisplay";
 import StakingMockup from "@/components/StakingMockup";
 
-// Type definitions for type safety
 interface Token {
   id: string;
   token_info: {
@@ -24,12 +23,6 @@ interface Token {
   };
 }
 
-/**
- * ChatPage Component
- * - **Ensures full viewport fit** without overflow.
- * - **No components hidden behind the header**.
- * - **Only chat messages scroll**, everything else is **static**.
- */
 export default function ChatPage() {
   const { contractAddress } = useParams<{ contractAddress: string }>();
   const contractAddressString = contractAddress ?? "";
@@ -42,7 +35,6 @@ export default function ChatPage() {
   const { data, loading: defiLoading, error: defiError } = useDeFiData(network, contractAddressString);
   const { tokens, loading: balanceLoading, error: balanceError } = useUserTokens();
 
-  // Calculate available balance
   const getAvailableBalance = useCallback(() => {
     const token = tokens.find((t: Token) => t.id === contractAddressString);
     return token ? token.token_info.balance / 10 ** token.token_info.decimals : 0;
@@ -67,61 +59,56 @@ export default function ChatPage() {
   const isDisabled = !publicKey;
 
   return (
-    <div className="flex flex-col w-full h-screen bg-gray-100 overflow-hidden">
-      {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-10">
+    <div className="flex flex-col h-screen w-full bg-gray-100 overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 z-10 h-16">
         <ChatHeader />
       </div>
-
-      {/* Main Layout - **Now fully adjusted for the viewport** */}
-      <div className="flex-1 flex flex-col md:flex-row w-full max-w-[98vw] mx-auto gap-6 px-6 pt-[72px] pb-[48px] overflow-hidden">
-        {/* Chat Panel - **Perfectly scaled height** */}
-        <div className="flex-1 bg-white rounded-lg shadow-md flex flex-col overflow-hidden w-full h-[calc(100vh-120px)]">
-          <ChatContractInfo
-            contractAddress={contractAddressString}
-            name={data?.data?.attributes?.name}
-            symbol={data?.data?.attributes?.symbol}
-          />
-          <div className="flex-1 overflow-y-auto">
-            <ChatMessageList messages={messages} publicKey={publicKey?.toBase58()} />
-          </div>
-          <ChatInput
-            newMessage={newMessage}
-            setNewMessage={setNewMessage}
-            sendMessage={handleSendMessage}
-            disabled={isDisabled}
-          />
-        </div>
-
-        {/* DeFi Data & Staking - **Now perfectly aligned** */}
-        <div className="hidden md:flex w-full md:w-1/3 flex-col gap-3 h-[calc(100vh-120px)]">
-          {/* DeFi Data - **Expands correctly** */}
-          <div className="flex-1">
-            <DeFiDataDisplay data={data} loading={defiLoading} error={defiError} />
-          </div>
-
-          {/* Staking - **Now fills vertical space correctly** */}
-          <div className="flex-1">
-            {balanceLoading ? (
-              <div className="bg-white rounded-lg shadow-md p-4 text-center text-gray-900 flex-1">
-                Loading balance...
-              </div>
-            ) : balanceError ? (
-              <div className="bg-white rounded-lg shadow-md p-4 text-center text-red-600 font-medium flex-1">
-                Error loading balance: {balanceError}
-              </div>
-            ) : (
-              <StakingMockup
-                tokenSymbol={data?.data?.attributes?.symbol || "TOKEN"}
-                availableBalance={availableBalance}
+      <div className="w-full h-[calc(100vh-102px)] mt-16 overflow-hidden">
+        <div className="grid grid-cols-5 gap-6 px-6 h-full">
+          <div className="col-span-4 bg-white rounded-lg shadow-md flex flex-col h-full overflow-hidden">
+            <div className="flex-shrink-0 h-[104px]">
+              <ChatContractInfo
+                contractAddress={contractAddressString}
+                name={data?.data?.attributes?.name}
+                symbol={data?.data?.attributes?.symbol}
               />
-            )}
+            </div>
+            <div className="h-[calc(100%-156px)] overflow-y-auto">
+              <ChatMessageList messages={messages} publicKey={publicKey?.toBase58()} />
+            </div>
+            <div className="flex-shrink-0 h-[52px]">
+              <ChatInput
+                newMessage={newMessage}
+                setNewMessage={setNewMessage}
+                sendMessage={handleSendMessage}
+                disabled={isDisabled}
+              />
+            </div>
+          </div>
+          <div className="col-span-1 flex flex-col gap-2 h-full">
+            <div className="h-1/2 bg-white rounded-lg shadow-md">
+              <DeFiDataDisplay data={data} loading={defiLoading} error={defiError} />
+            </div>
+            <div className="h-1/2 bg-white rounded-lg shadow-md">
+              {balanceLoading ? (
+                <div className="text-center text-gray-900 h-full flex items-center justify-center">
+                  Loading balance...
+                </div>
+              ) : balanceError ? (
+                <div className="text-center text-red-600 font-medium h-full flex items-center justify-center">
+                  Error loading balance: {balanceError}
+                </div>
+              ) : (
+                <StakingMockup
+                  tokenSymbol={data?.data?.attributes?.symbol || "TOKEN"}
+                  availableBalance={availableBalance}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Fixed Footer */}
-      <div className="fixed bottom-0 left-0 right-0 z-10">
+      <div className="fixed bottom-0 left-0 right-0 z-10 h-[38px]">
         <ChatroomFooter />
       </div>
     </div>

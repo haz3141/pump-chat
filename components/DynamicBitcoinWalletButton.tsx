@@ -98,9 +98,9 @@ const DynamicBitcoinWalletButton = ({ setStacksAddress }: { setStacksAddress: (a
           <motion.button
             onClick={handleConnect}
             disabled={connecting}
-            className="py-2 px-4 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition"
+            className="py-1 px-3 text-sm text-white font-bold bg-teal-600 rounded-lg hover:bg-teal-700 transition"
           >
-            {connecting ? "Connecting..." : "Connect Stacks Wallet"}
+            {connecting ? "Connecting..." : "Connect Stacks"}
           </motion.button>
         ) : (
           <motion.button

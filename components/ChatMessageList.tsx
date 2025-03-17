@@ -1,10 +1,3 @@
-/**
- * File: /components/ChatMessageList.tsx
- * Description:
- * - Displays chat messages in a full-width scrollable container.
- * - Styled with consistent padding and spacing for an app-like feel.
- */
-
 import React, { useEffect, useRef } from "react";
 import { ChatMessage } from "@/types/chat";
 
@@ -21,7 +14,7 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, publicKey }
   }, [messages]);
 
   return (
-    <div className="flex flex-col flex-1 overflow-y-auto p-6">
+    <div className="flex flex-col h-full overflow-y-auto p-2"> {/* Reduced p-4 to p-2 */}
       {messages.length > 0 ? (
         messages.map((msg) => (
           <div key={msg.id} className="mb-4">
