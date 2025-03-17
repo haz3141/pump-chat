@@ -12,13 +12,13 @@ export async function POST(req: NextRequest) {
     }
 
     // ✅ Secure Private Key Access (Server-side only)
-    const privateKey = process.env.STACKS_PRIVATE_KEY;
+    const privateKey = process.env.STACKS_TREASURY_PRIVATE_KEY;
     if (!privateKey) {
-      return NextResponse.json({ error: "Server misconfiguration: Missing STACKS_PRIVATE_KEY" }, { status: 500 });
+      return NextResponse.json({ error: "Server misconfiguration: Missing STACKS_TREASURY_PRIVATE_KEY" }, { status: 500 });
     }
 
     // ✅ Contract Deployment Details
-    const contractAddress = "ST2PQ57VQVWPS69J5W91EM6BXE75QD2Q701ANXXKZ"; // 🔹 Correct contract address
+    const contractAddress = process.env.NEXT_PUBLIC_STACKS_CONTRACT_ADDRESS || "";
     const contractName = "kult-token";
 
     // ✅ Transaction Options
@@ -28,18 +28,18 @@ export async function POST(req: NextRequest) {
       functionName: "reward-user",
       functionArgs: [uintCV(rewardAmount), standardPrincipalCV(stacksAddress)],
       network: STACKS_TESTNET,
-      senderKey: privateKey,
+      senderKey: privateKey, // 🔥 The treasury wallet signs the transaction
     };
 
-    // ✅ Create and Sign the Transaction (TypeScript will infer the type)
+    // ✅ Create and Sign the Transaction
     const transaction = await makeContractCall(txOptions);
 
-    // ✅ Broadcast the Transaction
-    const broadcastResult = await broadcastTransaction({ transaction, network: STACKS_TESTNET });
+    // ✅ Broadcast the Transaction (FIXED)
+    const broadcastResult = await broadcastTransaction({ transaction }); // ✅ Wrapped inside an object
 
-    // ✅ Handle Response
+    // ✅ Handle Response - Prepend "0x" for Hiro Explorer compatibility
     if ((broadcastResult as TxBroadcastResultOk).txid) {
-      return NextResponse.json({ txid: (broadcastResult as TxBroadcastResultOk).txid }, { status: 200 });
+      return NextResponse.json({ txid: `0x${(broadcastResult as TxBroadcastResultOk).txid}` }, { status: 200 });
     } else {
       return NextResponse.json({ error: (broadcastResult as TxBroadcastResultRejected).reason || "Broadcast failed" }, { status: 400 });
     }
