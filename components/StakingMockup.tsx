@@ -1,3 +1,5 @@
+// components/StakingMockup.tsx
+
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
@@ -102,8 +104,8 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
       } else {
         setRewardStatus(`Error: ${data.error}`);
       }
-    } catch (error: any) {
-      setRewardStatus(`Error: ${error.message || "Unknown error"}`);
+    } catch (error: unknown) {
+      setRewardStatus(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
   };
 
