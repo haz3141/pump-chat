@@ -23,26 +23,26 @@ const ChatContractInfo: React.FC<ChatContractInfoProps> = ({ contractAddress, na
   };
 
   return (
-    <div className="p-3 pb-1 flex flex-col gap-3 bg-teal-50 rounded-lg shadow-sm z-10 relative transform scale-90"> {/* Added transform scale */}
+    <div className="w-full p-4 bg-teal-50 rounded-lg shadow-sm z-10 relative">
       {/* Token Info */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900"> {/* Reduced font size */}
-          {name || "Unknown"} <span className="text-teal-600 text-sm">(${symbol || "N/A"})</span> {/* Reduced symbol text size */}
+        <h2 className="text-lg font-semibold text-gray-900">
+          {name || "Unknown"} <span className="text-teal-600 text-sm">(${symbol || "N/A"})</span>
         </h2>
-        <div className="flex items-center gap-2 text-xs text-gray-600 mt-1"> {/* Reduced font size and margin */}
+        <div className="flex items-center gap-2 text-xs text-gray-600 mt-1">
           <a href={solscanUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-semibold">
             CA:
           </a>
-          <span className="break-all">{contractAddress}</span>
-          <button onClick={handleCopy} className="ml-1 text-gray-500 hover:text-gray-700"> {/* Reduced margin */}
+          <span className="break-all flex-1">{contractAddress}</span>
+          <button onClick={handleCopy} className="text-gray-500 hover:text-gray-700">
             {copied ? <CheckIcon className="w-4 h-4 text-green-600" /> : <ClipboardIcon className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
       {/* Links and Button */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-3 text-xs"> {/* Reduced gap and font size */}
+      <div className="flex items-center justify-between mt-3">
+        <div className="flex gap-3 text-xs">
           <a href={dexScreenerUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700">
             DexScreener
           </a>
@@ -50,7 +50,7 @@ const ChatContractInfo: React.FC<ChatContractInfoProps> = ({ contractAddress, na
           <a href="#" className="text-teal-600 hover:text-teal-700">Telegram</a>
           <a href="#" className="text-teal-600 hover:text-teal-700">Website</a>
         </div>
-        <Button className="py-1 px-3 text-xs rounded-lg bg-teal-600 text-white hover:bg-teal-700" disabled> {/* Reduced button size and padding */}
+        <Button className="py-1 px-3 text-xs rounded-lg bg-teal-600 text-white hover:bg-teal-700" disabled>
           🤖 Ask AI (Coming Soon)
         </Button>
       </div>
