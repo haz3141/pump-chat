@@ -63,19 +63,17 @@ export default function ChatPage() {
       <div className="fixed top-0 left-0 right-0 z-10 h-16">
         <ChatHeader />
       </div>
-      <div className="w-full h-[calc(100vh-102px)] mt-16 overflow-hidden flex flex-col">
-        <div className="grid grid-cols-5 gap-6 px-6 flex-1">
-          <div className="col-span-4 bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
-            {/* Adjusted margin-bottom and height of ChatContractInfo */}
-            <div className="flex-shrink-0 h-[104px] mb-8"> {/* Play with this mb-8 for more space */}
+      <div className="w-full h-[calc(100vh-102px)] mt-16 overflow-hidden">
+        <div className="grid grid-cols-5 gap-6 px-6 h-full">
+          <div className="col-span-4 bg-white rounded-lg shadow-md flex flex-col h-full overflow-hidden">
+            <div className="flex-shrink-0 h-[104px]">
               <ChatContractInfo
                 contractAddress={contractAddressString}
                 name={data?.data?.attributes?.name}
                 symbol={data?.data?.attributes?.symbol}
               />
             </div>
-            {/* Increased margin-top here */}
-            <div className="h-full overflow-y-auto mt-12"> {/* Test increasing mt-12 */}
+            <div className="flex-1 overflow-y-auto mt-4"> {/* Adjusted margin-top here */}
               <ChatMessageList messages={messages} publicKey={publicKey?.toBase58()} />
             </div>
             <div className="flex-shrink-0 h-[52px]">
@@ -116,4 +114,3 @@ export default function ChatPage() {
     </div>
   );
 }
-

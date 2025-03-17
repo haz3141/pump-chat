@@ -28,6 +28,9 @@ const ChatHeader = () => {
       <Button href="/chat" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
         Explore
       </Button>
+      <Button href="/staking" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
+        Staking
+      </Button>
       <Button href="/leaderboard" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
         Leaderboard
       </Button>

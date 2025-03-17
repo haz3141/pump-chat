@@ -27,6 +27,7 @@ const ChatroomFooter = () => {
       {/* Center - Quick Links */}
       <div className="flex gap-4">
         <Link href="/explore" className="hover:text-teal-400 transition">Explore</Link>
+        <Link href="/staking" className="hover:text-teal-400 transition">Staking</Link>
         <Link href="/leaderboard" className="hover:text-teal-400 transition">Leaderboard</Link>
         <Link href="/settings" className="hover:text-teal-400 transition">Settings</Link>
         <Link href="/privacy-policy" className="hover:text-teal-400 transition">Privacy</Link>
