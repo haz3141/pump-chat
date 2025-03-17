@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { ClipboardIcon, CheckIcon } from "@heroicons/react/24/outline";
 import DynamicBitcoinWalletButton from "@/components/DynamicBitcoinWalletButton";
 
 interface StakingMockupProps {
@@ -16,6 +17,7 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
   const [isStaking, setIsStaking] = useState<boolean>(false);
   const [stacksAddress, setStacksAddress] = useState<string>("");
   const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [copied, setCopied] = useState<boolean>(false);
   const [stakeAmount, setStakeAmount] = useState<number>(0);
   const [dynamicReward, setDynamicReward] = useState<number>(0);
   const apy = 20;
@@ -46,6 +48,14 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
 
   const handleMaxStake = () => setStakeAmount(availableBalance);
 
+  const handleCopy = () => {
+    if (transactionId) {
+      navigator.clipboard.writeText(transactionId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   const handleRewardUser = async () => {
     if (!publicKey) {
       setRewardStatus("Error: Connect Solana wallet first.");
@@ -70,7 +80,7 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
       const data = await response.json();
       if (response.ok) {
         setTransactionId(data.txid);
-        setRewardStatus(`Success: Tx ID ${data.txid}`);
+        setRewardStatus("Success: Rewards Claimed!");
         setDynamicReward(0);
         setIsStaking(false);
       } else {
@@ -123,7 +133,7 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
         </div>
         <div className="grid grid-cols-2 gap-2 text-sm bg-gray-50 p-2 rounded-md">
           <div>
-            <span className="text-teal-600 font-medium">Yearly Rewards:</span>
+            <span className="text-teal-600 font-medium">APY:</span>
             <span className="text-gray-900 font-bold">{estimatedYearlyKULT} $KULT</span>
           </div>
           <div>
@@ -131,7 +141,6 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
             <span className="text-teal-600 font-bold">{governancePower}</span>
           </div>
         </div>
-
       </div>
 
       {/* Buttons and Status - fixed at bottom */}
@@ -150,23 +159,27 @@ const StakingMockup: React.FC<StakingMockupProps> = ({ tokenSymbol, availableBal
         >
           {isStaking ? `Claim ${dynamicReward.toFixed(6)} KULT` : "Stake to Claim"}
         </motion.button>
-        <div className="text-xs text-gray-900">
-          Status: {transactionId ? (
-            <a
-              href={`https://explorer.hiro.so/txid/${transactionId}?chain=testnet`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-600 underline hover:text-teal-700"
-            >
-              {transactionId.slice(0, 4)}...{transactionId.slice(-4)}
-            </a>
-          ) : rewardStatus === "Error: Connect Solana wallet first." ||
-            rewardStatus === "Error: Connect your Stacks wallet first." ||
-            rewardStatus === "Error: Start staking first." ||
-            rewardStatus.startsWith("Error:") ? (
-            <span className="text-red-600">{rewardStatus}</span>
+
+        {/* Status Display with Clipboard Copy */}
+        <div className="text-xs text-gray-900 flex items-center gap-2">
+          Status:{" "}
+          {transactionId ? (
+            <span className="flex items-center gap-1">
+              Rewards Claimed! TX: 
+              <a
+                href={`https://explorer.hiro.so/txid/${transactionId}?chain=testnet`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal-600 underline hover:text-teal-700"
+              >
+                {transactionId.slice(0, 8)}...{transactionId.slice(-8)}
+              </a>
+              <button onClick={handleCopy} className="text-gray-500 hover:text-gray-700">
+                {copied ? <CheckIcon className="w-4 h-4 text-green-600" /> : <ClipboardIcon className="w-4 h-4" />}
+              </button>
+            </span>
           ) : (
-            <span className="text-gray-900">{rewardStatus}</span>
+            <span className={rewardStatus.startsWith("Error") ? "text-red-600" : "text-gray-900"}>{rewardStatus}</span>
           )}
         </div>
       </div>

@@ -33,10 +33,12 @@ const ChatContractInfo: React.FC<ChatContractInfoProps> = ({ contractAddress, na
           <a href={solscanUrl} target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-semibold">
             CA:
           </a>
-          <span className="break-all flex-1">{contractAddress}</span>
-          <button onClick={handleCopy} className="text-gray-500 hover:text-gray-700">
-            {copied ? <CheckIcon className="w-4 h-4 text-green-600" /> : <ClipboardIcon className="w-4 h-4" />}
-          </button>
+          <div className="flex items-center gap-1">
+            <span className="break-all">{contractAddress}</span>
+            <button onClick={handleCopy} className="text-gray-500 hover:text-gray-700">
+              {copied ? <CheckIcon className="w-4 h-4 text-green-600" /> : <ClipboardIcon className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
       </div>
 
