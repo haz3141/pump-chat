@@ -25,7 +25,7 @@ const ChatHeader = () => {
       ☰
     </button>
     <nav className="hidden md:flex items-center gap-4">
-      <Button href="/explore" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
+      <Button href="/chat" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
         Explore
       </Button>
       <Button href="/leaderboard" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
