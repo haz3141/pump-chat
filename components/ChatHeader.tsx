@@ -34,7 +34,7 @@ const ChatHeader = () => {
       <Button href="/settings" variant="custom" size="sm" className="text-white hover:scale-105 transition-transform">
         Settings
       </Button>
-      <DynamicWalletButton size="sm" />
+      <DynamicWalletButton />
     </nav>
   </div>
   {/* Mobile Navigation Dropdown remains unchanged */}
