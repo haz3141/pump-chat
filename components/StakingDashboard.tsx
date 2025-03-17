@@ -192,8 +192,20 @@ const StakingDashboard: React.FC = () => {
         {isStaking ? `Claim ${dynamicReward.toFixed(6)} KULT Rewards` : "Stake to Claim"}
       </motion.button>
 
-      {/* Reward Status */}
-      <div className="text-sm text-gray-600">{rewardStatus}</div>
+      {/* ✅ Display Transaction ID */}
+      {transactionId && (
+        <div className="text-sm text-gray-600">
+          Success:{" "}
+          <a
+            href={`https://explorer.hiro.so/txid/${transactionId}?chain=testnet`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline"
+          >
+            View Transaction
+          </a>
+        </div>
+      )}
     </motion.div>
   );
 };
