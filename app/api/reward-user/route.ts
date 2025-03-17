@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { makeContractCall, broadcastTransaction, uintCV, standardPrincipalCV, TxBroadcastResultOk, TxBroadcastResultRejected } from "@stacks/transactions";
+import {
+  makeContractCall,
+  broadcastTransaction,
+  uintCV,
+  standardPrincipalCV,
+  TxBroadcastResultOk,
+  TxBroadcastResultRejected,
+  StacksTransactionWire,
+} from "@stacks/transactions";
 import { STACKS_TESTNET } from "@stacks/network";
 
 export async function POST(req: NextRequest) {
@@ -14,7 +22,10 @@ export async function POST(req: NextRequest) {
     // ✅ Secure Private Key Access (Server-side only)
     const privateKey = process.env.STACKS_TREASURY_PRIVATE_KEY;
     if (!privateKey) {
-      return NextResponse.json({ error: "Server misconfiguration: Missing STACKS_TREASURY_PRIVATE_KEY" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Server misconfiguration: Missing STACKS_TREASURY_PRIVATE_KEY" },
+        { status: 500 }
+      );
     }
 
     // ✅ Contract Deployment Details
@@ -32,18 +43,25 @@ export async function POST(req: NextRequest) {
     };
 
     // ✅ Create and Sign the Transaction
-    const transaction = await makeContractCall(txOptions);
+    const transaction: StacksTransactionWire = await makeContractCall(txOptions);
 
-    // ✅ Broadcast the Transaction (FIXED)
-    const broadcastResult = await broadcastTransaction({ transaction }); // ✅ Wrapped inside an object
+    // ✅ Fix: Pass `{ transaction }` correctly
+    const broadcastResult = await broadcastTransaction({ transaction });
 
     // ✅ Handle Response - Prepend "0x" for Hiro Explorer compatibility
-    if ((broadcastResult as TxBroadcastResultOk).txid) {
-      return NextResponse.json({ txid: `0x${(broadcastResult as TxBroadcastResultOk).txid}` }, { status: 200 });
+    if ("txid" in broadcastResult) {
+      return NextResponse.json({ txid: `0x${broadcastResult.txid}` }, { status: 200 });
     } else {
-      return NextResponse.json({ error: (broadcastResult as TxBroadcastResultRejected).reason || "Broadcast failed" }, { status: 400 });
+      return NextResponse.json(
+        { error: (broadcastResult as TxBroadcastResultRejected).reason || "Broadcast failed" },
+        { status: 400 }
+      );
     }
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Unknown error" }, { status: 500 });
+  } catch (error: unknown) {
+    // ✅ Fix: Type-safe error handling
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: "Unknown error" }, { status: 500 });
   }
 }
