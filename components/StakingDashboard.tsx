@@ -4,9 +4,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useUserTokens } from "@/hooks/useUserTokens";
-import useDeFiData from "@/hooks/useDeFiData";
-import { STACKS_TESTNET } from "@stacks/network";
-import { uintCV, standardPrincipalCV, TxBroadcastResultOk, TxBroadcastResultRejected } from "@stacks/transactions";
 import DynamicBitcoinWalletButton from "@/components/DynamicBitcoinWalletButton";
 
 /**
