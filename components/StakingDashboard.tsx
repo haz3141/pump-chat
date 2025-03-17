@@ -192,20 +192,33 @@ const StakingDashboard: React.FC = () => {
         {isStaking ? `Claim ${dynamicReward.toFixed(6)} KULT Rewards` : "Stake to Claim"}
       </motion.button>
 
-      {/* ✅ Display Transaction ID */}
-      {transactionId && (
-        <div className="text-sm text-gray-600">
-          Success:{" "}
-          <a
-            href={`https://explorer.hiro.so/txid/${transactionId}?chain=testnet`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 underline"
-          >
-            View Transaction
-          </a>
-        </div>
-      )}
+      {/* Reward Status */}
+      <div className="text-sm text-gray-600 flex items-center gap-2">
+        Reward Status:{" "}
+        {transactionId ? (
+          <div className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded-lg">
+            <span className="text-gray-700">Success: Tx ID</span>
+            <a
+              href={`https://explorer.hiro.so/txid/${transactionId}?chain=testnet`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline truncate max-w-[180px] md:max-w-[250px] overflow-hidden"
+              title={transactionId}
+            >
+              {transactionId.slice(0, 6)}...{transactionId.slice(-6)}
+            </a>
+            <button
+              onClick={() => navigator.clipboard.writeText(transactionId)}
+              className="text-gray-500 hover:text-gray-700 transition"
+              title="Copy Transaction ID"
+            >
+              📋
+            </button>
+          </div>
+        ) : (
+          rewardStatus
+        )}
+      </div>
     </motion.div>
   );
 };
