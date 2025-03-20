@@ -1,10 +1,14 @@
+Here's your **final README** with **emoji integration, Stacks & Solana details, and a strong hackathon pitch**:
+
+---
+
 # **Kulture.Fun 🛡️⛩️ – The Future of Crypto-Native Chat**  
 
 **🔺 Web3 Chat. DeFi Insights. Staking Rewards.**  
 
 Kulture.Fun is the **first wallet-gated chat platform for token communities**, integrating **live DeFi data, Solana staking, and Stacks smart contracts**. Our platform fixes the **spam-filled, scam-prone** nature of Telegram and Discord, giving traders and degens a **secure**, **on-chain**, and **rewarding** chat experience.  
 
----  
+---
 
 ## 🚀 **Features**  
 
@@ -57,6 +61,8 @@ The **Stacks smart contract** handles reward distribution securely:
 - **Verifies staking eligibility** before sending rewards  
 - **Txs are broadcast via Hiro Explorer**  
 
+📜 **Stacks Contract:** [Kult Token Smart Contract](https://explorer.hiro.so/txid/ST2PQ57VQVWPS69J5W91EM6BXE75QD2Q701ANXXKZ.kult-token?chain=testnet)  
+
 ### **🔹 Solana Chat & Staking**  
 - **Uses Solana token balances** for chat access  
 - **Token staking via Solana contract logic**  
@@ -79,7 +85,7 @@ The **Stacks smart contract** handles reward distribution securely:
 
 ### **Run Locally**  
 ```bash
-git clone https://github.com/kulturedotfun/pump-chat.git  
+git clone https://github.com/kulture-fun/kulture-chat.git  
 cd kulture-chat  
 npm install  
 npm run dev  
@@ -99,4 +105,8 @@ npm run dev
 ## 🔥 **Join the Movement**  
 🌐 **[Kulture.Fun](https://kulture.fun/)** | 🛡️ **Built for Degens** | ⛩️ **Crypto-Native SocialFi**  
 
-> “Where degens chat, stake, and trade—all in one place.” 🚀
+> “Where degens chat, stake, and trade—all in one place.” 🚀  
+
+---
+
+This README ensures **hackathon judges, developers, and investors** clearly understand **Kulture.Fun’s mission, technical foundation, and blockchain integration.** Let me know if you need any last-minute tweaks! 🚀
