@@ -79,7 +79,7 @@ The **Stacks smart contract** handles reward distribution securely:
 
 ### **Run Locally**  
 ```bash
-git clone https://github.com/kulture-fun/kulture-chat.git  
+git clone https://github.com/kulturedotfun/pump-chat.git  
 cd kulture-chat  
 npm install  
 npm run dev  
