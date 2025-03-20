@@ -1,38 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# **Kulture.Fun 🛡️⛩️ – The Future of Crypto-Native Chat**  
 
-## Getting Started
+**🔺 Web3 Chat. DeFi Insights. Staking Rewards.**  
 
-First, run the development server:
+Kulture.Fun is the **first wallet-gated chat platform for token communities**, integrating **live DeFi data, Solana staking, and Stacks smart contracts**. Our platform fixes the **spam-filled, scam-prone** nature of Telegram and Discord, giving traders and degens a **secure**, **on-chain**, and **rewarding** chat experience.  
 
+---  
+
+## 🚀 **Features**  
+
+### **🔹 Wallet-Gated Token Chatrooms**  
+- Join chatrooms **by holding the token** (read-only for non-holders)  
+- Messages are **signed on-chain** to prove authenticity  
+- **No spam, no bots, no fake admins**  
+
+### **📊 Live DeFi Data & Charts (Powered by Stacks & Solana)**  
+- View **real-time price, FDV, 24h volume, & liquidity** inside the chat  
+- Integrated **price trend charts** for quick insights  
+- **Direct DEX links** for trading  
+
+### **💰 Staking for Rewards (Solana + Stacks Hybrid)**  
+- **Stake any Solana token** to earn **$KULT rewards**  
+- Staking contract rewards **engaged token holders**  
+- Rewards are distributed **via Stacks smart contract payouts**  
+
+### **🌉 Cross-Chain Vision (Solana + Bitcoin Integration)**  
+- **Solana-first** for speed & low fees  
+- **Stacks smart contracts** for secure reward distribution  
+- Future **Bitcoin/Nostr** expansion for decentralized messaging  
+
+---
+
+## 🛠 **How It Works**  
+
+### **Solana Integration 🛠**  
+- Wallet connection via **Solana Wallet Adapter**  
+- Uses **Solana tokens** to determine chatroom access  
+- Staking is **handled via Solana token balances**  
+
+### **Stacks Integration 🏗️**  
+- **Rewards are distributed via a Stacks contract**  
+- Stacks wallet connects via **Leather Wallet**  
+- **Contract verifies staking & handles reward claims**  
+
+### **On-Chain Verification**  
+- Every message is **signed by the sender's wallet**  
+- Eliminates **spoofing & impersonation**  
+- Makes **chat verifiable & trustless**  
+
+---
+
+## 📜 **Smart Contracts**  
+
+### **🔹 Stacks Reward Contract**  
+The **Stacks smart contract** handles reward distribution securely:  
+- **Deployed on Stacks Testnet**  
+- **Verifies staking eligibility** before sending rewards  
+- **Txs are broadcast via Hiro Explorer**  
+
+### **🔹 Solana Chat & Staking**  
+- **Uses Solana token balances** for chat access  
+- **Token staking via Solana contract logic**  
+- Future upgrades will include **NFT-based chatrooms**  
+
+---
+
+## 🏆 **Why Kulture.Fun?**  
+
+🚀 **A Real Alternative to Telegram**  
+💬 **No spam, no fake admins**  
+📊 **Live DeFi insights in chat**  
+💰 **Stake & earn rewards while chatting**  
+🌉 **Cross-chain vision (Solana, Stacks, Bitcoin)**  
+🔒 **On-chain verified messaging**  
+
+---
+
+## ⚡ **Getting Started**  
+
+### **Run Locally**  
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/kulture-fun/kulture-chat.git  
+cd kulture-chat  
+npm install  
+npm run dev  
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **Connect Wallets**  
+1. **Solana:** Use Phantom, Backpack, or any Solana wallet  
+2. **Stacks:** Connect via Leather Wallet  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### **Staking & Rewards**  
+1. **Stake any Solana token** in the chat  
+2. **Earn $KULT rewards** distributed via Stacks contract  
+3. **Claim rewards directly inside the app**  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔥 **Join the Movement**  
+🌐 **[Kulture.Fun](https://kulture.fun/)** | 🛡️ **Built for Degens** | ⛩️ **Crypto-Native SocialFi**  
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Deploy Locally for based test
+> “Where degens chat, stake, and trade—all in one place.” 🚀
